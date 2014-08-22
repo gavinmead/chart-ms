@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>Angular-nvD3 Line Chart</title>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <link rel="stylesheet" href="https://rawgit.com/novus/nvd3/master/nv.d3.min.css"/>
+	<link rel="stylesheet" href="../../phantomjstests/bootstrap/css/bootstrap.min.css" />
+	<script src="https://raw.githubusercontent.com/es-shims/es5-shim/master/es5-shim.js"></script>
+	<script>
+		var chartingOptions = {
+			type: 'lineChart'
+		}
+	</script>	
+     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+    <script src="https://rawgit.com/mbostock/d3/master/d3.min.js"></script>
+    <script src="https://rawgit.com/novus/nvd3/master/nv.d3.min.js"></script>
+    <script src="https://rawgit.com/krispo/angular-nvd3/master/dist/angular-nvd3.js"></script>
+    <script>
+	var app = angular.module('plunker', ['nvd3']);
+
+app.controller('MainCtrl', function($scope) {
+  $scope.options = {
+            chart: {
+                type: chartingOptions.type,
+				width: 1030,
+                height: 630,
+                //x: function(d){ return d.x; },
+                //y: function(d){ return d.y; },
+                useInteractiveGuideline: false,
+				interactive : false,
+				callback: function(chart) {
+					console.log("rendered=1");
+				},
+                xAxis: {
+                    axisLabel: 'Test X'
+                },
+                yAxis: {
+                    axisLabel: 'Test Y',
+                    //tickFormat: function(d){
+                    //    return d3.format('.02f')(d);
+                    //},
+                    axisLabelDistance: 50
+                }
+            }
+        };
+
+        $scope.data = sinAndCos();
+
+        /*Random Data Generator */
+        function sinAndCos() {
+            var sin = []
+
+            //Data is represented as an array of {x,y} pairs.
+            for (var i = 0; i < 100; i++) {
+                sin.push({x: i, y: i});
+            }
+
+            //Line chart data should be sent as an array of series objects.
+            return [
+                {
+                    values: sin,      //values - represents the array of {x,y} data points
+                    key: 'Sine Wave', //key  - the name of the series.
+                    color: '#ff7f0e'  //color - optional: choose your own line color.
+                }               
+            ];
+        };
+});
+	</script>
+  </head>
+
+  <body ng-controller="MainCtrl">
+	<div class="container">
+		<div id="test" style='width:1045px;float:left;border-style:solid; border-width:1px;'>
+			<div class="row">
+			<!-- TEST IMAGE only-->
+				<div class="col-md-3"><img style="margin: 15px; "height="55" width="201" src="http://www.google.com/images/srpr/logo11w.png"/></div>
+				<div class="col-md-6 text-center">
+					<div class="heading">
+						<h3>Test Heading</h3>
+						<p>Sub Heading</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div id="chart" class="col-md-12">
+					<nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+				</div>				
+			</div>
+		</div>
+</div>
+  </body>
+
+</html>
