@@ -1,4 +1,4 @@
-package io.gavinmead.chart;
+package io.gmi.chart;
 
 import org.junit.Rule;
 import org.junit.Test;
