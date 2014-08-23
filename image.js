@@ -78,7 +78,7 @@ page.onConsoleMessage = function(msg, lineNum, sourceId) {
 	}
 };
 
-page.open("file:///G:/phantomjstests/text.html", function(status) {
+page.open("text.html", function(status) {
   if(status == 'fail') {
 	phantom.exit(1);
   }

@@ -17,5 +17,7 @@
 package io.gmi.chart.domain;
 
 public class LineChartOptions extends ChartOptions {
-
+  private Axis xAxis;
+  private Axis yAxis;
+  
 }

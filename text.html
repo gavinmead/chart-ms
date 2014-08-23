@@ -6,7 +6,7 @@
     <title>Angular-nvD3 Line Chart</title>
     <script>document.write('<base href="' + document.location + '" />');</script>
     <link rel="stylesheet" href="https://rawgit.com/novus/nvd3/master/nv.d3.min.css"/>
-	<link rel="stylesheet" href="../../phantomjstests/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<script src="https://raw.githubusercontent.com/es-shims/es5-shim/master/es5-shim.js"></script>
 	<script>
 		var chartingOptions = {
@@ -34,14 +34,14 @@ app.controller('MainCtrl', function($scope) {
 					console.log("rendered=1");
 				},
                 xAxis: {
-                    axisLabel: 'Test X'
+                    axisLabel: 'Test X',
                 },
                 yAxis: {
                     axisLabel: 'Test Y',
                     //tickFormat: function(d){
                     //    return d3.format('.02f')(d);
                     //},
-                    axisLabelDistance: 50
+                    axisLabelDistance: 30
                 }
             }
         };
