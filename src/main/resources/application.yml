@@ -3,14 +3,17 @@ scripts:
   angular:
     path: classpath:/scripts/angular.min.js
   d3:
-    path: classpath:/scripts/d3.min.css
+    path: classpath:/scripts/d3.min.js
   nvd3:
     path: classpath:/scripts/nv.d3.min.js
   angular-nvd3:
-    path: classpath:/scripts/angular-nvd3.js
+    path: classpath:/scripts/angular-nvd3.min.js
   es5shim:
     path: classpath:/scripts/es5-shim.js
 css:
   nvd3:
     path: classpath:/css/nv.d3.min.css
+  bootstrap:
+    path: classpath:/css/bootstrap.min.css
+    use: true;
 
