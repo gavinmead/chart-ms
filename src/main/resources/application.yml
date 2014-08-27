@@ -1,1 +1,16 @@
 version: 1.0.0-SNAPSHOT
+scripts:
+  angular:
+    path: classpath:/scripts/angular.min.js
+  d3:
+    path: classpath:/scripts/d3.min.css
+  nvd3:
+    path: classpath:/scripts/nv.d3.min.js
+  angular-nvd3:
+    path: classpath:/scripts/angular-nvd3.js
+  es5shim:
+    path: classpath:/scripts/es5-shim.js
+css:
+  nvd3:
+    path: classpath:/css/nv.d3.min.css
+
