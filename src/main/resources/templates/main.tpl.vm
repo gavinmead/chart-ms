@@ -1,7 +1,26 @@
 <!DOCTYPE html>
 <html ng-app="app">
-
-<body>
-
+<head>
+    <meta charset="utf-8" />
+    <style>
+        $nvd3css
+    </style>
+    #if($useBootstrap == true)
+        <style>
+          $bootstrap
+        </style>
+    #end
+    <script>
+        $angularjs
+        $d3
+        $nvd3
+        $angularNvd3
+    </script>
+    <script>
+        $app
+    </script>
+</head>
+<body body="ChartController">
+  $content
 </body>
 </html>
