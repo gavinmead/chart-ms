@@ -36,7 +36,7 @@ import java.util.Map;
         {@JsonSubTypes.Type(value= LineChartOptions.class, name = "line")}
 )
 public abstract class ChartRequestDto {
-  private Boolean useBootstrap;
+  private Boolean useBootstrap = true;
   public List<Image> images;
   public Map<String, String> keys;
   public String template;

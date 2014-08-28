@@ -17,10 +17,11 @@
  * under the License.
  */
 
-package io.gmi.chart;
+package io.gmi.chart.builder;
 
-import io.gmi.chart.builder.ChartBuilder;
-import io.gmi.chart.builder.LineChartBuilder;
+import io.gmi.chart.Application;
+import io.gmi.chart.BadChartRequestDto;
+import io.gmi.chart.ChartBuilderNotFoundException;
 import io.gmi.chart.dto.LineChartRequestDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +44,8 @@ public class ChartBuilderFactoryImplTest {
     ChartBuilder builder = factory.getChartBuilder(requestDto);
     assertThat(builder).isNotNull();
     assertThat(builder).isInstanceOf(LineChartBuilder.class);
+    assertThat(builder.getChartBuilderContext()).isNotNull();
+    assertThat(builder.getChartBuilderContext().getConfiguration()).isNotNull();
   }
 
   @Test(expected = ChartBuilderNotFoundException.class)

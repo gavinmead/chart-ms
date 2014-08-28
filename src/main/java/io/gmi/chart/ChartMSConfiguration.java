@@ -47,6 +47,8 @@ public class ChartMSConfiguration {
   public static final String LINE_CHART_DIRECTIVE = LINE_CHART + ".directive";
   public static final String LINE_CHART_OPTION_TYPE = LINE_CHART + ".option";
 
+  public static final String CHART_BUILDER_THREAD_POOL_KEY = CHARTS + ".builder.poolSize";
+
   public final String ANGULAR_SCRIPT_PATH() {
      return getProperty(ANGULAR_SCRIPT_PATH_KEY);
   }
@@ -77,8 +79,13 @@ public class ChartMSConfiguration {
 
   public final String LINE_CHART_OPTION() { return getProperty(LINE_CHART_OPTION_TYPE); }
 
+  public final Integer CHART_BUILDER_THREAD_POOL_SIZE() {
+    return environment.getProperty(CHART_BUILDER_THREAD_POOL_KEY, Integer.class);
+  }
+
   private String getProperty(String property) {
     return environment.getProperty(property);
   }
+
 
 }

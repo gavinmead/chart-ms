@@ -22,4 +22,6 @@ charts:
       <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
     option: >
       var chartingOptions = { type: 'lineChart' }
+  builder:
+    poolSize: 10
 

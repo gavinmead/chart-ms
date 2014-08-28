@@ -19,23 +19,14 @@
 
 package io.gmi.chart.builder;
 
-import com.google.common.util.concurrent.ListenableFuture;
-import io.gmi.chart.dto.ChartRequestDto;
-import io.gmi.chart.dto.LineChartRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component(LineChartRequestDto.chartType)
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-class LineChartBuilder extends ChartBuilder {
 
-  private static final Logger log = LoggerFactory.getLogger(LineChartBuilder.class);
+@Component
+public class TestChartBuilder extends ChartBuilder {
 
-  @Override
-  public ListenableFuture<byte[]> buildChart(ChartRequestDto chartRequestDto) {
-    return null;
-  }
+  private static final Logger log = LoggerFactory.getLogger(TestChartBuilder.class);
+
 }

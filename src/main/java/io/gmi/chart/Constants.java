@@ -23,4 +23,15 @@ public class Constants {
   private Constants() {}
 
   public static final String BASE_64 = "base64";
+
+  public static final String $NVD3CSS = "nvd3css";
+  public static final String $USE_BOOTSTRAP = "useBootstrap";
+  public static final String $BOOTSTRAP = "bootstrap";
+  public static final String $ANGULARJS = "angularjs";
+  public static final String $D3 = "d3";
+  public static final String $NVD3 = "nvd3";
+  public static final String $ANGULAR_NVD3 = "angularNvd3";
+  public static final String $APP = "app";
+  public static final String $CONTENT = "content";
+  public static final String $ES5_SHIM = "es5shim";
 }

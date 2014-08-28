@@ -17,11 +17,27 @@
  * under the License.
  */
 
-package io.gmi.chart;
+package io.gmi.chart.builder;
 
-import io.gmi.chart.builder.ChartBuilder;
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.ChartMSConfiguration;
 
-public interface ChartBuilderFactory {
-  ChartBuilder getChartBuilder(ChartRequestDto requestDto) throws ChartBuilderException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+
+public class ChartBuilderContext {
+  private ChartMSConfiguration configuration;
+  private Map<String, Object> contextMap = new ConcurrentHashMap<>();
+
+  public ChartBuilderContext(ChartMSConfiguration configuration) {
+    this.configuration = configuration;
+  }
+
+  public ChartMSConfiguration getConfiguration() {
+    return configuration;
+  }
+
+  public Map<String, Object> getContextMap() {
+    return contextMap;
+  }
 }

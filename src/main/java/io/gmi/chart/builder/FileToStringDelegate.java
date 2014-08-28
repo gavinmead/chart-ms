@@ -19,23 +19,29 @@
 
 package io.gmi.chart.builder;
 
+import com.google.common.io.Files;
 import com.google.common.util.concurrent.ListenableFuture;
-import io.gmi.chart.dto.ChartRequestDto;
-import io.gmi.chart.dto.LineChartRequestDto;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-@Component(LineChartRequestDto.chartType)
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-class LineChartBuilder extends ChartBuilder {
+import java.io.File;
+import java.nio.charset.Charset;
 
-  private static final Logger log = LoggerFactory.getLogger(LineChartBuilder.class);
+/**
+ * Takes a file and streams the content to a start.
+ */
+public class FileToStringDelegate {
 
-  @Override
-  public ListenableFuture<byte[]> buildChart(ChartRequestDto chartRequestDto) {
-    return null;
+  private static final Logger log = LoggerFactory.getLogger(FileToStringDelegate.class);
+  private ListeningExecutorService listeningExecutorService;
+
+  public FileToStringDelegate(ListeningExecutorService listeningExecutorService) {
+    this.listeningExecutorService = listeningExecutorService;
   }
+
+  public ListenableFuture<String> processFile(final File inputFile) {
+    return listeningExecutorService.submit(() -> Files.toString(inputFile, Charset.defaultCharset()));
+  }
+
 }

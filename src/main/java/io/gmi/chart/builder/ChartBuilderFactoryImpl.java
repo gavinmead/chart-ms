@@ -17,24 +17,42 @@
  * under the License.
  */
 
-package io.gmi.chart;
+package io.gmi.chart.builder;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import io.gmi.chart.builder.ChartBuilder;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import io.gmi.chart.ChartBuilderException;
+import io.gmi.chart.ChartBuilderNotFoundException;
+import io.gmi.chart.ChartMSConfiguration;
 import io.gmi.chart.dto.ChartRequestDto;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.Executors;
+
 @Component
-public class ChartBuilderFactoryImpl implements ChartBuilderFactory, ApplicationContextAware {
+public class ChartBuilderFactoryImpl implements ChartBuilderFactory, InitializingBean, ApplicationContextAware {
 
   private static final Logger log = LoggerFactory.getLogger(ChartBuilderFactoryImpl.class);
   private ApplicationContext applicationContext;
+
+  private ListeningExecutorService executorService;
+
+  @Autowired
+  private ChartMSConfiguration configuration;
+
+  @Autowired
+  private ResourceLoader resourceLoader;
 
   @Override
   public ChartBuilder getChartBuilder(ChartRequestDto requestDto) throws ChartBuilderException {
@@ -44,7 +62,10 @@ public class ChartBuilderFactoryImpl implements ChartBuilderFactory, Application
     try {
       Object chartBuilderObj = (ChartBuilder) applicationContext.getBean(requestDto.getType());
       if(chartBuilderObj instanceof ChartBuilder) {
-        return (ChartBuilder) chartBuilderObj;
+        ChartBuilder chartBuilder = (ChartBuilder) chartBuilderObj;
+        chartBuilder.setChartBuilderContext(new ChartBuilderContext(configuration));
+        chartBuilder.setListeningExecutorService(executorService);
+        return chartBuilder;
       } else {
         throw new ChartBuilderNotFoundException("Bean registered with name " +
           requestDto.getType() + " is not a ChartBuilder implementation (" +
@@ -59,5 +80,18 @@ public class ChartBuilderFactoryImpl implements ChartBuilderFactory, Application
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;
+  }
+
+  @VisibleForTesting
+  public void setConfiguration(ChartMSConfiguration configuration) {
+    this.configuration = configuration;
+  }
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    executorService = MoreExecutors
+            .listeningDecorator(Executors.newFixedThreadPool(configuration.CHART_BUILDER_THREAD_POOL_SIZE()));
+    log.info("executorService configured with a thread pool if size {}",
+            configuration.CHART_BUILDER_THREAD_POOL_SIZE());
   }
 }
