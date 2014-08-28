@@ -17,24 +17,11 @@
  * under the License.
  */
 
-package io.gmi.chart.api;
+package io.gmi.chart;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import io.gmi.chart.builder.ChartBuilder;
+import io.gmi.chart.dto.ChartRequestDto;
 
-@RestController
-@RequestMapping(value = UrlConstants.LINE_CHART)
-public class LineChartController {
-
-  private static final Logger log = LoggerFactory.getLogger(LineChartController.class);
-
-  @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
-          produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-  public void create() {
-
-  }
+public interface ChartBuilderFactory {
+  ChartBuilder getChartBuilder(ChartRequestDto requestDto) throws ChartBuilderException;
 }

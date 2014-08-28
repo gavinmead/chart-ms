@@ -79,6 +79,21 @@ public class ChartMSConfigurationTest {
     assertResource(configuration::BOOTSTRAP_CSS_PATH, "bootstrap.min.css");
   }
 
+  @Test
+  public void testUSE_BOOTSTRAP_DEFAULT() {
+    assertThat(configuration.USE_BOOTSTRAP_DEFAULT()).isTrue();
+  }
+
+  @Test
+  public void testLINE_CHART_DIRECTIVE() {
+    assertThat(configuration.LINE_CHART_DIRECTIVE()).isNotNull();
+  }
+
+  @Test
+  public void testLINE_CHART_OPTION() {
+    assertThat(configuration.LINE_CHART_OPTION()).contains("var chartingOptions = { type: 'lineChart' }");
+  }
+
   private void assertResource(Func0<String> configFunc, String key) throws Exception {
     String configEntry = configFunc.call();
     assertThat(configEntry).isNotNull();

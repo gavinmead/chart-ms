@@ -41,6 +41,12 @@ public class ChartMSConfiguration {
   public static final String NVD3_CSS_PATH_KEY = CSS + ".nvd3.path";
   public static final String BOOTSTRAP_CSS_PATH_KEY = CSS + ".bootstrap.path";
 
+  public static final String USE_BOOTSTRAP_KEY = CSS + ".bootstrap.use";
+  public static final String CHARTS = "charts";
+  public static final String LINE_CHART = CHARTS + ".line";
+  public static final String LINE_CHART_DIRECTIVE = LINE_CHART + ".directive";
+  public static final String LINE_CHART_OPTION_TYPE = LINE_CHART + ".option";
+
   public final String ANGULAR_SCRIPT_PATH() {
      return getProperty(ANGULAR_SCRIPT_PATH_KEY);
   }
@@ -63,7 +69,16 @@ public class ChartMSConfiguration {
 
   public final String BOOTSTRAP_CSS_PATH() { return getProperty(BOOTSTRAP_CSS_PATH_KEY); }
 
+  public final Boolean USE_BOOTSTRAP_DEFAULT() {
+    return environment.getProperty(USE_BOOTSTRAP_KEY, Boolean.class);
+  }
+
+  public final String LINE_CHART_DIRECTIVE() { return getProperty(LINE_CHART_DIRECTIVE); }
+
+  public final String LINE_CHART_OPTION() { return getProperty(LINE_CHART_OPTION_TYPE); }
+
   private String getProperty(String property) {
     return environment.getProperty(property);
   }
+
 }

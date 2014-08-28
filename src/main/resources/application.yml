@@ -15,5 +15,11 @@ css:
     path: classpath:/css/nv.d3.min.css
   bootstrap:
     path: classpath:/css/bootstrap.min.css
-    use: true;
+    use: true
+charts:
+  line:
+    directive: >
+      <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+    option: >
+      var chartingOptions = { type: 'lineChart' }
 
