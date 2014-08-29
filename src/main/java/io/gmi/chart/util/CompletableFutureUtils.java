@@ -17,26 +17,22 @@
  * under the License.
  */
 
-package io.gmi.chart.builder;
+package io.gmi.chart.util;
 
-import io.gmi.chart.dto.ChartRequestDto;
-import io.gmi.chart.dto.LineChartRequestDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
-@Component(LineChartRequestDto.chartType)
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-class LineChartBuilder extends ChartBuilder {
 
-  private static final Logger log = LoggerFactory.getLogger(LineChartBuilder.class);
+public class CompletableFutureUtils {
 
-  @Override
-  public CompletableFuture<byte[]> buildChart(ChartRequestDto chartRequestDto) {
-    return null;
+  public static <T> CompletableFuture<Collection<T>> sequence(Collection<CompletableFuture<T>> futureList) {
+    CompletableFuture<Void> allDone = CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));
+    return allDone.thenApply(v ->
+                    futureList
+                            .stream()
+                            .map(future -> future.join())
+                            .collect(Collectors.<T>toList())
+    );
   }
 }

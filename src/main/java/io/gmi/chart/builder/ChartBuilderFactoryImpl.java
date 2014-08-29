@@ -21,8 +21,6 @@ package io.gmi.chart.builder;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
 import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.ChartBuilderNotFoundException;
 import io.gmi.chart.ChartMSConfiguration;
@@ -38,6 +36,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Component
@@ -46,7 +45,7 @@ public class ChartBuilderFactoryImpl implements ChartBuilderFactory, Initializin
   private static final Logger log = LoggerFactory.getLogger(ChartBuilderFactoryImpl.class);
   private ApplicationContext applicationContext;
 
-  private ListeningExecutorService executorService;
+  private ExecutorService executorService;
 
   @Autowired
   private ChartMSConfiguration configuration;
@@ -64,7 +63,7 @@ public class ChartBuilderFactoryImpl implements ChartBuilderFactory, Initializin
       if(chartBuilderObj instanceof ChartBuilder) {
         ChartBuilder chartBuilder = (ChartBuilder) chartBuilderObj;
         chartBuilder.setChartBuilderContext(new ChartBuilderContext(configuration));
-        chartBuilder.setListeningExecutorService(executorService);
+        chartBuilder.setExecutorService(executorService);
         return chartBuilder;
       } else {
         throw new ChartBuilderNotFoundException("Bean registered with name " +
@@ -89,8 +88,7 @@ public class ChartBuilderFactoryImpl implements ChartBuilderFactory, Initializin
 
   @Override
   public void afterPropertiesSet() throws Exception {
-    executorService = MoreExecutors
-            .listeningDecorator(Executors.newFixedThreadPool(configuration.CHART_BUILDER_THREAD_POOL_SIZE()));
+    executorService = Executors.newFixedThreadPool(configuration.CHART_BUILDER_THREAD_POOL_SIZE());
     log.info("executorService configured with a thread pool if size {}",
             configuration.CHART_BUILDER_THREAD_POOL_SIZE());
   }

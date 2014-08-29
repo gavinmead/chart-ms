@@ -20,31 +20,31 @@
 package io.gmi.chart.builder;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
 import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.Constants;
 import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.util.CompletableFutureUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 
 public abstract class ChartBuilder {
 
   private static final Logger log = LoggerFactory.getLogger(ChartBuilder.class);
 
   protected ChartBuilderContext chartBuilderContext;
-  private ListeningExecutorService listeningExecutorService;
+  private ExecutorService executorService;
 
   @Autowired
   private ResourceLoader resourceLoader;
 
-  public ListenableFuture<byte[]> buildChart(ChartRequestDto chartRequestDto) throws ChartBuilderException {
+  public CompletableFuture<byte[]> buildChart(ChartRequestDto chartRequestDto) throws ChartBuilderException {
     return null;
   }
 
@@ -52,8 +52,9 @@ public abstract class ChartBuilder {
     this.chartBuilderContext = chartBuilderContext;
   }
 
-  public void setListeningExecutorService(ListeningExecutorService listeningExecutorService) {
-    this.listeningExecutorService = listeningExecutorService;
+  @VisibleForTesting
+  public void setExecutorService(ExecutorService executorService) {
+    this.executorService = executorService;
   }
 
   @VisibleForTesting
@@ -67,7 +68,7 @@ public abstract class ChartBuilder {
   }
 
   @VisibleForTesting
-  protected Map<String,ListenableFuture<String>> processScriptAndStyleFiles(ChartRequestDto chartRequestDto) throws Exception {
+  protected CompletableFuture<Collection<KVP<String>>> processScriptAndStyleFiles(ChartRequestDto chartRequestDto) throws Exception {
     //Create a list of resources to use
     final Map<String, File> resourceMap = new HashMap<>();
     resourceMap.put(Constants.$ANGULARJS,
@@ -100,16 +101,41 @@ public abstract class ChartBuilder {
                       .getResource(chartBuilderContext.getConfiguration().BOOTSTRAP_CSS_PATH())
                       .getFile());
     }
+    List<CompletableFuture<KVP<String>>> kvpFutures = new ArrayList<>(resourceMap.size());
+    resourceMap.forEach((k, v) ->
+            kvpFutures.add(CompletableFuture.supplyAsync(() -> createFileKVP(k, v), executorService)));
 
-    final Map<String, ListenableFuture<String>> fileFutureMap = new HashMap<>();
-    resourceMap.forEach((k, v) -> fileFutureMap.put(k, buildFileString(v)));
-    return fileFutureMap;
+    return CompletableFutureUtils.sequence(kvpFutures);
   }
 
-  private ListenableFuture<String> buildFileString(File file) {
+
+  private String buildFileString(File file) {
     log.debug("Getting contents for file {}", file.getName());
-    FileToStringDelegate fileToStringDelegate = new FileToStringDelegate(listeningExecutorService);
+    FileToStringDelegate fileToStringDelegate = new FileToStringDelegate();
     return fileToStringDelegate.processFile(file);
+  }
+
+  private KVP<String> createFileKVP(String key, File file) {
+    return new KVP<>(key, buildFileString(file));
+  }
+
+  @VisibleForTesting
+  protected class KVP<T> {
+    private String key;
+    private T value;
+
+    public KVP(String key, T value) {
+      this.key = key;
+      this.value = value;
+    }
+
+    public String getKey() {
+      return key;
+    }
+
+    public T getValue() {
+      return value;
+    }
   }
 
 }

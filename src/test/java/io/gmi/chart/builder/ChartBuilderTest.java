@@ -19,10 +19,6 @@
 
 package io.gmi.chart.builder;
 
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
 import io.gmi.chart.Application;
 import io.gmi.chart.ChartMSConfiguration;
 import io.gmi.chart.TestChartRequestDto;
@@ -35,8 +31,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,27 +53,24 @@ public class ChartBuilderTest {
 
   ChartBuilderContext context;
 
-  private static ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(3));
-
+  private static ExecutorService service = Executors.newFixedThreadPool(5);
 
   @Before
   public void setUp() throws Exception {
     context = new ChartBuilderContext(configuration);
     chartBuilder = new TestChartBuilder();
-    chartBuilder.setListeningExecutorService(service);
+    chartBuilder.setExecutorService(service);
     chartBuilder.setChartBuilderContext(context);
     chartBuilder.setResourceLoader(resourceLoader);
   }
 
   @Test(timeout = 10000)
   public void testProcessScriptAndStyleFiles() throws Exception {
-    Map<String, ListenableFuture<String>> filesFutures = chartBuilder.processScriptAndStyleFiles(new TestChartRequestDto());
-    ListenableFuture<List<String>> resultFuture = Futures.successfulAsList(filesFutures.values());
-    List<String> results = resultFuture.get();
-    assertThat(results.size()).isEqualTo(7);
-    for(String result : results) {
-      assertThat(StringUtils.isEmpty(result)).isFalse();
-    }
-
+    CompletableFuture<Collection<ChartBuilder.KVP<String>>> kvpCollectionFuture =
+            chartBuilder.processScriptAndStyleFiles(new TestChartRequestDto());
+    assertThat(kvpCollectionFuture).isNotNull();
+    Collection<ChartBuilder.KVP<String>> result = kvpCollectionFuture.get();
+    assertThat(result.size()).isEqualTo(7);
+    result.forEach(kvp -> assertThat(StringUtils.isEmpty(kvp.getValue())).isFalse());
   }
 }

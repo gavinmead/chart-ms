@@ -19,7 +19,6 @@
 
 package io.gmi.chart.builder;
 
-import com.google.common.util.concurrent.*;
 import io.gmi.chart.Application;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,18 +29,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.concurrent.Executors;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 public class FileToStringDelegateTest {
 
   private static final String PATH = "classpath:/testFile.txt";
-
-  private static ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(2));
 
   private FileToStringDelegate delegate;
 
@@ -50,29 +44,16 @@ public class FileToStringDelegateTest {
 
   @Before
   public void setUp() throws Exception {
-    delegate = new FileToStringDelegate(service);
+    delegate = new FileToStringDelegate();
   }
 
-  @Test(timeout = 5000)
+  @Test
   public void testProcessFile() throws Exception {
     Resource testFile = resourceLoader.getResource(PATH);
     assertThat(testFile).isNotNull();
-    ListenableFuture<String> resultFuture = delegate.processFile(testFile.getFile());
-
-    Futures.addCallback(resultFuture, new FutureCallback<String>() {
-      @Override
-      public void onSuccess(String result) {
-        assertThat(result).contains("test");
-      }
-
-      @Override
-      public void onFailure(Throwable t) {
-        fail();
-      }
-    });
-    while(!resultFuture.isDone()) {
-
-    }
+    String result = delegate.processFile(testFile.getFile());
+    assertThat(result).isNotNull();
+    assertThat(result).contains("test");
   }
 
 
