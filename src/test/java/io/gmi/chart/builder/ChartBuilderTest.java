@@ -22,6 +22,7 @@ package io.gmi.chart.builder;
 import io.gmi.chart.Application;
 import io.gmi.chart.ChartMSConfiguration;
 import io.gmi.chart.TestChartRequestDto;
+import io.gmi.chart.domain.Image;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,5 +73,30 @@ public class ChartBuilderTest {
     Collection<ChartBuilder.KVP<String>> result = kvpCollectionFuture.get();
     assertThat(result.size()).isEqualTo(7);
     result.forEach(kvp -> assertThat(StringUtils.isEmpty(kvp.getValue())).isFalse());
+  }
+
+  @Test(timeout = 5000)
+  public void testProcessImages() throws Exception {
+    Image image1 = new Image();
+    image1.setContent("ABCD");
+    image1.setKey("image1");
+
+    Image image2 = new Image();
+    image2.setContent("DCBA");
+    image2.setKey("image2");
+
+    TestChartRequestDto requestDto = new TestChartRequestDto();
+    requestDto.getImages().add(image1);
+    requestDto.getImages().add(image2);
+
+    CompletableFuture<Collection<ChartBuilder.KVP<String>>> kvpCollectionFuture = chartBuilder.processImages(requestDto);
+    assertThat(kvpCollectionFuture).isNotNull();
+    Collection<ChartBuilder.KVP<String>> result = kvpCollectionFuture.get();
+    assertThat(result.size()).isEqualTo(2);
+    ChartBuilder.KVP<String> kvp1 = result.stream().filter(kvp -> kvp.getKey().equals("image1")).findFirst().get();
+    assertThat(kvp1.getValue()).isEqualTo("data:image/png;base64, ABCD");
+
+    ChartBuilder.KVP<String> kvp2 = result.stream().filter(kvp -> kvp.getKey().equals("image2")).findFirst().get();
+    assertThat(kvp2.getValue()).isEqualTo("data:image/png;base64, DCBA");
   }
 }

@@ -30,7 +30,7 @@ import java.nio.charset.Charset;
 /**
  * Takes a file and streams the content to a start.
  */
-public class FileToStringDelegate {
+class FileToStringDelegate {
 
   private static final Logger log = LoggerFactory.getLogger(FileToStringDelegate.class);
 

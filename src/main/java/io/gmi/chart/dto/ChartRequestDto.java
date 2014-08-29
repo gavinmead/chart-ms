@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.gmi.chart.domain.Image;
 import io.gmi.chart.domain.LineChartOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ import java.util.Map;
 )
 public abstract class ChartRequestDto {
   private Boolean useBootstrap = true;
-  public List<Image> images;
+  public List<Image> images = new ArrayList<>();
   public Map<String, String> keys;
   public String template;
 

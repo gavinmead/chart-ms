@@ -22,6 +22,7 @@ package io.gmi.chart.builder;
 import com.google.common.annotations.VisibleForTesting;
 import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.Constants;
+import io.gmi.chart.domain.Image;
 import io.gmi.chart.dto.ChartRequestDto;
 import io.gmi.chart.util.CompletableFutureUtils;
 import org.slf4j.Logger;
@@ -33,10 +34,13 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 public abstract class ChartBuilder {
 
   private static final Logger log = LoggerFactory.getLogger(ChartBuilder.class);
+
+  private static final String DATA_URI_FORMAT= "data:image/png;base64, %s";
 
   protected ChartBuilderContext chartBuilderContext;
   private ExecutorService executorService;
@@ -108,11 +112,25 @@ public abstract class ChartBuilder {
     return CompletableFutureUtils.sequence(kvpFutures);
   }
 
+  protected CompletableFuture<Collection<KVP<String>>> processImages(ChartRequestDto chartRequestDto) {
+    List<CompletableFuture<KVP<String>>> kvpImageFutures = new ArrayList<>();
+    List<Image> images = chartRequestDto.getImages();
+    images.stream()
+          .collect(Collectors.toMap(Image::getKey, (i) -> i))
+          .forEach((k, v) ->
+                  kvpImageFutures.add(CompletableFuture.supplyAsync(() -> buildImageSourceString(k, v), executorService)));
+    return CompletableFutureUtils.sequence(kvpImageFutures);
+  }
 
   private String buildFileString(File file) {
     log.debug("Getting contents for file {}", file.getName());
     FileToStringDelegate fileToStringDelegate = new FileToStringDelegate();
     return fileToStringDelegate.processFile(file);
+  }
+
+  private KVP<String> buildImageSourceString(String key, Image image) {
+    log.debug("Building image src tag for {}", image.getKey());
+    return new KVP<>(key, String.format(DATA_URI_FORMAT, image.getContent()));
   }
 
   private KVP<String> createFileKVP(String key, File file) {

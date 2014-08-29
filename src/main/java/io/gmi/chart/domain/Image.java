@@ -19,14 +19,9 @@
 
 package io.gmi.chart.domain;
 
-import io.gmi.chart.Constants;
-
 public class Image {
   private String key;
   private String content;
-  private Integer height;
-  private Integer width;
-  private String encoding = Constants.BASE_64;
 
   public String getKey() {
     return key;
@@ -44,38 +39,11 @@ public class Image {
     this.content = content;
   }
 
-  public String getEncoding() {
-    return encoding;
-  }
-
-  public void setEncoding(String encoding) {
-    this.encoding = encoding;
-  }
-
-  public Integer getHeight() {
-    return height;
-  }
-
-  public void setHeight(Integer height) {
-    this.height = height;
-  }
-
-  public Integer getWidth() {
-    return width;
-  }
-
-  public void setWidth(Integer width) {
-    this.width = width;
-  }
-
   @Override
   public String toString() {
     return "Image{" +
             "key='" + key + '\'' +
             ", content='" + content + '\'' +
-            ", height=" + height +
-            ", width=" + width +
-            ", encoding='" + encoding + '\'' +
             '}';
   }
 }
