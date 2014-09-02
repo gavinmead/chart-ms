@@ -27,6 +27,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 @Component(LineChartRequestDto.chartType)
@@ -36,7 +37,17 @@ class LineChartBuilder extends ChartBuilder {
   private static final Logger log = LoggerFactory.getLogger(LineChartBuilder.class);
 
   @Override
-  public CompletableFuture<byte[]> buildChart(ChartRequestDto chartRequestDto) {
+  public CompletableFuture<ChartBuilderResult> buildChart(ChartRequestDto chartRequestDto) {
+    return null;
+  }
+
+  @Override
+  protected Collection<Object> getChartData(ChartRequestDto chartRequestDto) {
+    return null;
+  }
+
+  @Override
+  protected String getChartScriptTemplate(ChartRequestDto chartRequestDto) {
     return null;
   }
 }

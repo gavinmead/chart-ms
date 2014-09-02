@@ -32,8 +32,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Collection;
-import java.util.concurrent.CompletableFuture;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -65,17 +64,16 @@ public class ChartBuilderTest {
     chartBuilder.setResourceLoader(resourceLoader);
   }
 
-  @Test(timeout = 10000)
+  @Test
   public void testProcessScriptAndStyleFiles() throws Exception {
-    CompletableFuture<Collection<ChartBuilder.KVP<String>>> kvpCollectionFuture =
+    Map<String,String> results =
             chartBuilder.processScriptAndStyleFiles(new TestChartRequestDto());
-    assertThat(kvpCollectionFuture).isNotNull();
-    Collection<ChartBuilder.KVP<String>> result = kvpCollectionFuture.get();
-    assertThat(result.size()).isEqualTo(7);
-    result.forEach(kvp -> assertThat(StringUtils.isEmpty(kvp.getValue())).isFalse());
+    assertThat(results).isNotNull();
+    assertThat(results.size()).isEqualTo(7);
+    results.forEach((k, v) -> assertThat(StringUtils.isEmpty(v)).isFalse());
   }
 
-  @Test(timeout = 5000)
+  @Test
   public void testProcessImages() throws Exception {
     Image image1 = new Image();
     image1.setContent("ABCD");
@@ -89,14 +87,13 @@ public class ChartBuilderTest {
     requestDto.getImages().add(image1);
     requestDto.getImages().add(image2);
 
-    CompletableFuture<Collection<ChartBuilder.KVP<String>>> kvpCollectionFuture = chartBuilder.processImages(requestDto);
-    assertThat(kvpCollectionFuture).isNotNull();
-    Collection<ChartBuilder.KVP<String>> result = kvpCollectionFuture.get();
-    assertThat(result.size()).isEqualTo(2);
-    ChartBuilder.KVP<String> kvp1 = result.stream().filter(kvp -> kvp.getKey().equals("image1")).findFirst().get();
-    assertThat(kvp1.getValue()).isEqualTo("data:image/png;base64, ABCD");
+    Map<String,String> results = chartBuilder.processImages(requestDto);
+    assertThat(results).isNotNull();
+    assertThat(results.size()).isEqualTo(2);
+    String kvp1 = results.get("image1");
+    assertThat(kvp1).isEqualTo("data:image/png;base64, ABCD");
 
-    ChartBuilder.KVP<String> kvp2 = result.stream().filter(kvp -> kvp.getKey().equals("image2")).findFirst().get();
-    assertThat(kvp2.getValue()).isEqualTo("data:image/png;base64, DCBA");
+    String kvp2 = results.get("image2");
+    assertThat(kvp2).isEqualTo("data:image/png;base64, DCBA");
   }
 }

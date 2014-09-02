@@ -19,26 +19,35 @@
 
 package io.gmi.chart.builder;
 
-import io.gmi.chart.dto.ChartRequestDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+public class ChartBuilderResult {
 
-import java.util.Collection;
+  private boolean hasError;
+  private Throwable error;
+  private byte[] result;
 
-
-@Component
-public class TestChartBuilder extends ChartBuilder {
-
-  private static final Logger log = LoggerFactory.getLogger(TestChartBuilder.class);
-
-  @Override
-  protected Collection<Object> getChartData(ChartRequestDto chartRequestDto) {
-    return null;
+  ChartBuilderResult(byte[] result) {
+    this(false, null, result);
   }
 
-  @Override
-  protected String getChartScriptTemplate(ChartRequestDto chartRequestDto) {
-    return null;
+  ChartBuilderResult(boolean hasError, Throwable error) {
+    this(hasError, error, null);
+  }
+
+  ChartBuilderResult(boolean hasError, Throwable error, byte[] result) {
+    this.hasError = hasError;
+    this.error = error;
+    this.result = result;
+  }
+
+  public boolean isHasError() {
+    return hasError;
+  }
+
+  public Throwable getError() {
+    return error;
+  }
+
+  public byte[] getResult() {
+    return result;
   }
 }

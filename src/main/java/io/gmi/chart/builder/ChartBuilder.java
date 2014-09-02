@@ -24,17 +24,18 @@ import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.Constants;
 import io.gmi.chart.domain.Image;
 import io.gmi.chart.dto.ChartRequestDto;
-import io.gmi.chart.util.CompletableFutureUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.stream.Collectors;
 
 public abstract class ChartBuilder {
 
@@ -48,7 +49,15 @@ public abstract class ChartBuilder {
   @Autowired
   private ResourceLoader resourceLoader;
 
-  public CompletableFuture<byte[]> buildChart(ChartRequestDto chartRequestDto) throws ChartBuilderException {
+  public CompletableFuture<ChartBuilderResult> buildChart(ChartRequestDto chartRequestDto) throws ChartBuilderException {
+    try {
+      Map<String, String> scriptsAndStyles = processScriptAndStyleFiles(chartRequestDto);
+      Map<String, String> images = processImages(chartRequestDto);
+      //check failures?
+    } catch (Exception e) {
+      throw new ChartBuilderException(e);
+    }
+
     return null;
   }
 
@@ -71,8 +80,9 @@ public abstract class ChartBuilder {
     return chartBuilderContext;
   }
 
+
   @VisibleForTesting
-  protected CompletableFuture<Collection<KVP<String>>> processScriptAndStyleFiles(ChartRequestDto chartRequestDto) throws Exception {
+  protected Map<String, String> processScriptAndStyleFiles(ChartRequestDto chartRequestDto) throws Exception {
     //Create a list of resources to use
     final Map<String, File> resourceMap = new HashMap<>();
     resourceMap.put(Constants.$ANGULARJS,
@@ -105,22 +115,26 @@ public abstract class ChartBuilder {
                       .getResource(chartBuilderContext.getConfiguration().BOOTSTRAP_CSS_PATH())
                       .getFile());
     }
-    List<CompletableFuture<KVP<String>>> kvpFutures = new ArrayList<>(resourceMap.size());
-    resourceMap.forEach((k, v) ->
-            kvpFutures.add(CompletableFuture.supplyAsync(() -> createFileKVP(k, v), executorService)));
+    final Map<String, String> resultsMap = new HashMap<>();
+    resourceMap.forEach((k, v) -> resultsMap.put(k, buildFileString(v)));
 
-    return CompletableFutureUtils.sequence(kvpFutures);
+    return resultsMap;
   }
 
-  protected CompletableFuture<Collection<KVP<String>>> processImages(ChartRequestDto chartRequestDto) {
-    List<CompletableFuture<KVP<String>>> kvpImageFutures = new ArrayList<>();
+  protected Map<String, String> processImages(ChartRequestDto chartRequestDto) {
+    final Map<String, String> resultsMap = new HashMap<>();
     List<Image> images = chartRequestDto.getImages();
-    images.stream()
-          .collect(Collectors.toMap(Image::getKey, (i) -> i))
-          .forEach((k, v) ->
-                  kvpImageFutures.add(CompletableFuture.supplyAsync(() -> buildImageSourceString(k, v), executorService)));
-    return CompletableFutureUtils.sequence(kvpImageFutures);
+    images.forEach(image -> resultsMap.put(image.getKey(), buildImageSourceString(image)));
+    return resultsMap;
   }
+
+  protected CompletableFuture<Collection<Object>> processChartData(ChartRequestDto chartRequestDto) {
+    return CompletableFuture.supplyAsync(() -> getChartData(chartRequestDto), executorService);
+  }
+
+  protected abstract Collection<Object> getChartData(ChartRequestDto chartRequestDto);
+
+  protected abstract String getChartScriptTemplate(ChartRequestDto chartRequestDto);
 
   private String buildFileString(File file) {
     log.debug("Getting contents for file {}", file.getName());
@@ -128,32 +142,9 @@ public abstract class ChartBuilder {
     return fileToStringDelegate.processFile(file);
   }
 
-  private KVP<String> buildImageSourceString(String key, Image image) {
+  private String buildImageSourceString(Image image) {
     log.debug("Building image src tag for {}", image.getKey());
-    return new KVP<>(key, String.format(DATA_URI_FORMAT, image.getContent()));
-  }
-
-  private KVP<String> createFileKVP(String key, File file) {
-    return new KVP<>(key, buildFileString(file));
-  }
-
-  @VisibleForTesting
-  protected class KVP<T> {
-    private String key;
-    private T value;
-
-    public KVP(String key, T value) {
-      this.key = key;
-      this.value = value;
-    }
-
-    public String getKey() {
-      return key;
-    }
-
-    public T getValue() {
-      return value;
-    }
+    return String.format(DATA_URI_FORMAT, image.getContent());
   }
 
 }

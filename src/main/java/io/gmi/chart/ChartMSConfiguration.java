@@ -19,12 +19,15 @@
 
 package io.gmi.chart;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
 @Component
-public class ChartMSConfiguration {
+public class ChartMSConfiguration implements InitializingBean {
 
   @Autowired
   private Environment environment;
@@ -47,7 +50,10 @@ public class ChartMSConfiguration {
   public static final String LINE_CHART_DIRECTIVE = LINE_CHART + ".directive";
   public static final String LINE_CHART_OPTION_TYPE = LINE_CHART + ".option";
 
+  private static final String TEMPLATE_PATH_FORMAT_STRING = "%s" + File.separator + "templates" + File.separator;
   public static final String CHART_BUILDER_THREAD_POOL_KEY = CHARTS + ".builder.poolSize";
+
+  public String DYNAMIC_TEMPLATE_PATH;
 
   public final String ANGULAR_SCRIPT_PATH() {
      return getProperty(ANGULAR_SCRIPT_PATH_KEY);
@@ -88,4 +94,10 @@ public class ChartMSConfiguration {
   }
 
 
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    String tempDir = environment.getProperty("java.io.tmpdir");
+    DYNAMIC_TEMPLATE_PATH = String.format(TEMPLATE_PATH_FORMAT_STRING, tempDir);
+
+  }
 }

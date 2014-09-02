@@ -21,6 +21,7 @@ package io.gmi.chart.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.gmi.chart.domain.ChartOptions;
 import io.gmi.chart.domain.Image;
 import io.gmi.chart.domain.LineChartOptions;
 
@@ -41,6 +42,9 @@ public abstract class ChartRequestDto {
   public List<Image> images = new ArrayList<>();
   public Map<String, String> keys;
   public String template;
+  public String chartId;
+  public Boolean showLegend = true;
+  public ChartOptions chartOptions;
 
   public Boolean getUseBootstrap() {
     return useBootstrap;
@@ -75,4 +79,28 @@ public abstract class ChartRequestDto {
   }
 
   public abstract String getType();
+
+  public String getChartId() {
+    return chartId;
+  }
+
+  public void setChartId(String chartId) {
+    this.chartId = chartId;
+  }
+
+  public Boolean getShowLegend() {
+    return showLegend;
+  }
+
+  public void setShowLegend(Boolean showLegend) {
+    this.showLegend = showLegend;
+  }
+
+  public ChartOptions getChartOptions() {
+    return chartOptions;
+  }
+
+  public void setChartOptions(ChartOptions chartOptions) {
+    this.chartOptions = chartOptions;
+  }
 }

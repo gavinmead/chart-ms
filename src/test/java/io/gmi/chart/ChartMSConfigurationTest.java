@@ -23,11 +23,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,6 +45,9 @@ public class ChartMSConfigurationTest {
 
   @Autowired
   ResourceLoader resourceLoader;
+
+  @Autowired
+  Environment environment;
 
   @Test
   public void testANGULAR_SCRIPT_PATH() throws Exception {
@@ -92,6 +97,13 @@ public class ChartMSConfigurationTest {
   @Test
   public void testLINE_CHART_OPTION() {
     assertThat(configuration.LINE_CHART_OPTION()).contains("var chartingOptions = { type: 'lineChart' }");
+  }
+
+  @Test
+  public void testDYNAMIC_TEMPLATE_PATH() {
+    assertThat(configuration.DYNAMIC_TEMPLATE_PATH)
+            .startsWith(environment.getProperty("java.io.tmpdir") + File.separator);
+
   }
 
   private void assertResource(Func0<String> configFunc, String key) throws Exception {
