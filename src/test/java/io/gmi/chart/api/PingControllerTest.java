@@ -20,7 +20,7 @@
 package io.gmi.chart.api;
 
 import io.gmi.chart.Application;
-import io.gmi.chart.dto.PingResponseDto;
+import io.gmi.chart.requests.PingResponseDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

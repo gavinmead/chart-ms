@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package io.gmi.chart.dto;
+package io.gmi.chart.requests;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -37,12 +37,12 @@ import java.util.Map;
 @JsonSubTypes(
         {@JsonSubTypes.Type(value= LineChartOptions.class, name = "line")}
 )
-public abstract class ChartRequestDto {
+public abstract class ChartRequest {
   private Boolean useBootstrap = true;
   public List<Image> images = new ArrayList<>();
-  public Map<String, String> keys;
+  public Map<String, String> content;
   public String template;
-  public String chartId;
+  public String chartTagId;
   public Boolean showLegend = true;
   public ChartOptions chartOptions;
 
@@ -62,12 +62,12 @@ public abstract class ChartRequestDto {
     this.images = images;
   }
 
-  public Map<String, String> getKeys() {
-    return keys;
+  public Map<String, String> getContent() {
+    return content;
   }
 
-  public void setKeys(Map<String, String> keys) {
-    this.keys = keys;
+  public void setContent(Map<String, String> content) {
+    this.content = content;
   }
 
   public String getTemplate() {
@@ -80,12 +80,12 @@ public abstract class ChartRequestDto {
 
   public abstract String getType();
 
-  public String getChartId() {
-    return chartId;
+  public String getChartTagId() {
+    return chartTagId;
   }
 
-  public void setChartId(String chartId) {
-    this.chartId = chartId;
+  public void setChartTagId(String chartTagId) {
+    this.chartTagId = chartTagId;
   }
 
   public Boolean getShowLegend() {

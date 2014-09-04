@@ -19,8 +19,8 @@
 
 package io.gmi.chart.builder;
 
-import io.gmi.chart.dto.ChartRequestDto;
-import io.gmi.chart.dto.LineChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
+import io.gmi.chart.requests.LineChartRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -30,24 +30,24 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
-@Component(LineChartRequestDto.chartType)
+@Component(LineChartRequest.chartType)
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 class LineChartBuilder extends ChartBuilder {
 
   private static final Logger log = LoggerFactory.getLogger(LineChartBuilder.class);
 
   @Override
-  public CompletableFuture<ChartBuilderResult> buildChart(ChartRequestDto chartRequestDto) {
+  public CompletableFuture<ChartBuilderResult> buildChart(ChartRequest chartRequest) {
     return null;
   }
 
   @Override
-  protected Collection<Object> getChartData(ChartRequestDto chartRequestDto) {
+  protected Collection<Object> getChartData(ChartRequest chartRequest) {
     return null;
   }
 
   @Override
-  protected String getChartScriptTemplate(ChartRequestDto chartRequestDto) {
+  protected String getChartScriptTemplate(ChartRequest chartRequest) {
     return null;
   }
 }

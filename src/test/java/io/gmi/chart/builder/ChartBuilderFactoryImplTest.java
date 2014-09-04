@@ -20,9 +20,9 @@
 package io.gmi.chart.builder;
 
 import io.gmi.chart.Application;
-import io.gmi.chart.BadChartRequestDto;
+import io.gmi.chart.BadChartRequest;
 import io.gmi.chart.ChartBuilderNotFoundException;
-import io.gmi.chart.dto.LineChartRequestDto;
+import io.gmi.chart.requests.LineChartRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class ChartBuilderFactoryImplTest {
 
   @Test
   public void testGetLineChartBuilder() throws Exception {
-    LineChartRequestDto requestDto = new LineChartRequestDto();
+    LineChartRequest requestDto = new LineChartRequest();
     ChartBuilder builder = factory.getChartBuilder(requestDto);
     assertThat(builder).isNotNull();
     assertThat(builder).isInstanceOf(LineChartBuilder.class);
@@ -50,7 +50,7 @@ public class ChartBuilderFactoryImplTest {
 
   @Test(expected = ChartBuilderNotFoundException.class)
   public void testChartNotFoundException() {
-    BadChartRequestDto notFound = new BadChartRequestDto("noChart");
+    BadChartRequest notFound = new BadChartRequest("noChart");
     factory.getChartBuilder(notFound);
   }
 
@@ -61,7 +61,7 @@ public class ChartBuilderFactoryImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testNoType() {
-    BadChartRequestDto noType = new BadChartRequestDto(null);
+    BadChartRequest noType = new BadChartRequest(null);
     factory.getChartBuilder(noType);
   }
 }

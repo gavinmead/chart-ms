@@ -3,25 +3,25 @@
 <head>
     <meta charset="utf-8" />
     <style>
-        ${nvd3css}
+        $nvd3css
     </style>
-    #if(${useBootstrap} == true)
+    #if($useBootstrap == true)
         <style>
-          ${bootstrap}
+          $bootstrap
         </style>
     #end
     <script>
-        ${es5shim}
-        ${angularjs}
-        ${d3}
-        ${nvd3}
-        ${angularNvd3}
+        $es5shim
+        $angularjs
+        $d3
+        $nvd3
+        $angularNvd3
     </script>
     <script>
-        ${app}
+        $app
     </script>
 </head>
 <body body="ChartController">
-  ${content}
+  $content
 </body>
 </html>

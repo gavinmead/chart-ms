@@ -19,7 +19,7 @@
 
 package io.gmi.chart.api;
 
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -38,7 +38,7 @@ public class ChartController {
 
   @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.IMAGE_PNG_VALUE, method = RequestMethod.POST)
-  public byte[] create(@RequestBody ChartRequestDto chartRequestDto, HttpServletResponse servletResponse) {
+  public byte[] create(@RequestBody ChartRequest chartRequest, HttpServletResponse servletResponse) {
     throw new UnsupportedOperationException("");
   }
 }

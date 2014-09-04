@@ -19,37 +19,37 @@
 
 package io.gmi.chart;
 
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
 
 
 public class ChartBuilderNotFoundException extends ChartBuilderException {
-  private ChartRequestDto chartRequestDto;
+  private ChartRequest chartRequest;
 
-  public ChartBuilderNotFoundException(ChartRequestDto chartRequestDto) {
-    this.chartRequestDto = chartRequestDto;
+  public ChartBuilderNotFoundException(ChartRequest chartRequest) {
+    this.chartRequest = chartRequest;
   }
 
-  public ChartBuilderNotFoundException(String message, ChartRequestDto chartRequestDto) {
+  public ChartBuilderNotFoundException(String message, ChartRequest chartRequest) {
     super(message);
-    this.chartRequestDto = chartRequestDto;
+    this.chartRequest = chartRequest;
   }
 
-  public ChartBuilderNotFoundException(String message, Throwable cause, ChartRequestDto chartRequestDto) {
+  public ChartBuilderNotFoundException(String message, Throwable cause, ChartRequest chartRequest) {
     super(message, cause);
-    this.chartRequestDto = chartRequestDto;
+    this.chartRequest = chartRequest;
   }
 
-  public ChartBuilderNotFoundException(Throwable cause, ChartRequestDto chartRequestDto) {
+  public ChartBuilderNotFoundException(Throwable cause, ChartRequest chartRequest) {
     super(cause);
-    this.chartRequestDto = chartRequestDto;
+    this.chartRequest = chartRequest;
   }
 
-  public ChartBuilderNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, ChartRequestDto chartRequestDto) {
+  public ChartBuilderNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, ChartRequest chartRequest) {
     super(message, cause, enableSuppression, writableStackTrace);
-    this.chartRequestDto = chartRequestDto;
+    this.chartRequest = chartRequest;
   }
 
-  public ChartRequestDto getChartRequestDto() {
-    return chartRequestDto;
+  public ChartRequest getChartRequest() {
+    return chartRequest;
   }
 }

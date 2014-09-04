@@ -22,15 +22,26 @@ package io.gmi.chart.builder;
 import io.gmi.chart.ChartMSConfiguration;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ChartBuilderContext {
   private ChartMSConfiguration configuration;
   private Map<String, Object> contextMap = new ConcurrentHashMap<>();
+  private UUID id;
 
   public ChartBuilderContext(ChartMSConfiguration configuration) {
+    this(UUID.randomUUID(), configuration);
+  }
+
+  public ChartBuilderContext(UUID id, ChartMSConfiguration configuration) {
     this.configuration = configuration;
+    this.id = id;
+  }
+
+  public UUID getId() {
+    return id;
   }
 
   public ChartMSConfiguration getConfiguration() {

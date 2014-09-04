@@ -17,11 +17,25 @@
  * under the License.
  */
 
-package io.gmi.chart.builder;
+package io.gmi.chart;
 
-import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.requests.ChartRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public interface ChartBuilderFactory {
-  public ChartBuilder getChartBuilder(ChartRequest requestDto) throws ChartBuilderException;
+
+public class BadChartRequest extends ChartRequest {
+
+  private static final Logger log = LoggerFactory.getLogger(BadChartRequest.class);
+
+  private String chartType;
+
+  public BadChartRequest(String chartType) {
+    this.chartType = chartType;
+  }
+
+  @Override
+  public String getType() {
+    return chartType;
+  }
 }

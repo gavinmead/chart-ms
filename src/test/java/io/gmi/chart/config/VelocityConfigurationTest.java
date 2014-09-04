@@ -40,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringApplicationConfiguration(classes = Application.class)
 public class VelocityConfigurationTest {
 
-  private static final String TEMPLATE = "${test}";
+  private static final String TEMPLATE = "$test";
 
   private static final String TEMP_FILE = "temp-file.vm";
 

@@ -20,14 +20,18 @@
 package io.gmi.chart.builder;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.io.Files;
 import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.Constants;
 import io.gmi.chart.domain.Image;
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
+import io.gmi.chart.util.ChartUtils;
+import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import java.io.File;
 import java.util.Collection;
@@ -42,6 +46,7 @@ public abstract class ChartBuilder {
   private static final Logger log = LoggerFactory.getLogger(ChartBuilder.class);
 
   private static final String DATA_URI_FORMAT= "data:image/png;base64, %s";
+  private static final String DATA_KEY = "data";
 
   protected ChartBuilderContext chartBuilderContext;
   private ExecutorService executorService;
@@ -49,16 +54,27 @@ public abstract class ChartBuilder {
   @Autowired
   private ResourceLoader resourceLoader;
 
-  public CompletableFuture<ChartBuilderResult> buildChart(ChartRequestDto chartRequestDto) throws ChartBuilderException {
-    try {
-      Map<String, String> scriptsAndStyles = processScriptAndStyleFiles(chartRequestDto);
-      Map<String, String> images = processImages(chartRequestDto);
-      //check failures?
-    } catch (Exception e) {
-      throw new ChartBuilderException(e);
-    }
+  @Autowired
+  private VelocityEngine velocityEngine;
 
-    return null;
+  public CompletableFuture<ChartBuilderResult> buildChart(ChartRequest chartRequest) throws ChartBuilderException {
+
+    return CompletableFuture.supplyAsync(() -> {
+      try {
+        //Generate the user content template
+        log.info("Building chart ");
+        Map<String, String> images = processImages(chartRequest);
+        Map<String, Object> templateMap = new HashMap<>();
+        templateMap.putAll(images);
+        templateMap.putAll(chartRequest.getContent());
+        String content = generateContentTemplate(templateMap, chartRequest.getTemplate());
+        Map<String, String> scriptsAndStyles = processScriptAndStyleFiles(chartRequest);
+
+      } catch (Exception e) {
+        throw new ChartBuilderException(e);
+      }
+      return null;
+    }, executorService);
   }
 
   public void setChartBuilderContext(ChartBuilderContext chartBuilderContext) {
@@ -76,13 +92,18 @@ public abstract class ChartBuilder {
   }
 
   @VisibleForTesting
+  public void setVelocityEngine(VelocityEngine velocityEngine) {
+    this.velocityEngine = velocityEngine;
+  }
+
+  @VisibleForTesting
   public ChartBuilderContext getChartBuilderContext() {
     return chartBuilderContext;
   }
 
 
   @VisibleForTesting
-  protected Map<String, String> processScriptAndStyleFiles(ChartRequestDto chartRequestDto) throws Exception {
+  protected Map<String, String> processScriptAndStyleFiles(ChartRequest chartRequest) throws Exception {
     //Create a list of resources to use
     final Map<String, File> resourceMap = new HashMap<>();
     resourceMap.put(Constants.$ANGULARJS,
@@ -109,7 +130,7 @@ public abstract class ChartBuilder {
             resourceLoader
                     .getResource(chartBuilderContext.getConfiguration().ES5_SHIM_SCRIPT_PATH())
                     .getFile());
-    if(chartRequestDto.getUseBootstrap()) {
+    if(chartRequest.getUseBootstrap()) {
       resourceMap.put(Constants.$BOOTSTRAP,
               resourceLoader
                       .getResource(chartBuilderContext.getConfiguration().BOOTSTRAP_CSS_PATH())
@@ -121,20 +142,37 @@ public abstract class ChartBuilder {
     return resultsMap;
   }
 
-  protected Map<String, String> processImages(ChartRequestDto chartRequestDto) {
+  @VisibleForTesting
+  protected Map<String, String> processImages(ChartRequest chartRequest) {
     final Map<String, String> resultsMap = new HashMap<>();
-    List<Image> images = chartRequestDto.getImages();
+    List<Image> images = chartRequest.getImages();
     images.forEach(image -> resultsMap.put(image.getKey(), buildImageSourceString(image)));
     return resultsMap;
   }
 
-  protected CompletableFuture<Collection<Object>> processChartData(ChartRequestDto chartRequestDto) {
-    return CompletableFuture.supplyAsync(() -> getChartData(chartRequestDto), executorService);
+  @VisibleForTesting
+  protected String generateContentTemplate(Map<String, Object> contentMap, String requestTemplate) throws Exception {
+    File contentTemplateFile = ChartUtils.createTempFile(chartBuilderContext.getConfiguration());
+    log.info("File {} created to hold requestTemplate for request {}", contentTemplateFile.getPath()
+            , chartBuilderContext.getId());
+    Files.write(requestTemplate.getBytes(), contentTemplateFile);
+    String result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, contentTemplateFile.getName(), "utf-8", contentMap);
+    try {
+      if(contentTemplateFile.delete())
+        log.info("Deleted content template file {} for request {}", contentTemplateFile.getPath(),
+                chartBuilderContext.getId());
+      else
+        log.warn("Unable to delete content template file {} for request {}", contentTemplateFile.getPath(),
+                chartBuilderContext.getId());
+    } catch (Exception e) {
+      log.warn("Error while trying to delete file {}", contentTemplateFile.getName(), e);
+    }
+    return result;
   }
 
-  protected abstract Collection<Object> getChartData(ChartRequestDto chartRequestDto);
+  protected abstract Collection<Object> getChartData(ChartRequest chartRequest);
 
-  protected abstract String getChartScriptTemplate(ChartRequestDto chartRequestDto);
+  protected abstract String getChartScriptTemplate(ChartRequest chartRequest);
 
   private String buildFileString(File file) {
     log.debug("Getting contents for file {}", file.getName());

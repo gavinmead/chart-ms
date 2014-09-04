@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
 import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.ChartBuilderNotFoundException;
 import io.gmi.chart.ChartMSConfiguration;
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class ChartBuilderFactoryImpl implements ChartBuilderFactory, Initializin
   private ResourceLoader resourceLoader;
 
   @Override
-  public ChartBuilder getChartBuilder(ChartRequestDto requestDto) throws ChartBuilderException {
+  public ChartBuilder getChartBuilder(ChartRequest requestDto) throws ChartBuilderException {
     Preconditions.checkNotNull(requestDto);
     Preconditions.checkArgument(StringUtils.isNotEmpty(requestDto.getType()));
 

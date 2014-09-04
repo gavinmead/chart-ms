@@ -21,9 +21,10 @@ package io.gmi.chart.builder;
 
 import io.gmi.chart.Application;
 import io.gmi.chart.ChartMSConfiguration;
-import io.gmi.chart.TestChartRequestDto;
+import io.gmi.chart.TestChartRequest;
 import io.gmi.chart.domain.Image;
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.app.VelocityEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +33,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,6 +53,9 @@ public class ChartBuilderTest {
   @Autowired
   ResourceLoader resourceLoader;
 
+  @Autowired
+  VelocityEngine velocityEngine;
+
   ChartBuilderContext context;
 
   private static ExecutorService service = Executors.newFixedThreadPool(5);
@@ -62,12 +67,13 @@ public class ChartBuilderTest {
     chartBuilder.setExecutorService(service);
     chartBuilder.setChartBuilderContext(context);
     chartBuilder.setResourceLoader(resourceLoader);
+    chartBuilder.setVelocityEngine(velocityEngine);
   }
 
   @Test
   public void testProcessScriptAndStyleFiles() throws Exception {
     Map<String,String> results =
-            chartBuilder.processScriptAndStyleFiles(new TestChartRequestDto());
+            chartBuilder.processScriptAndStyleFiles(new TestChartRequest());
     assertThat(results).isNotNull();
     assertThat(results.size()).isEqualTo(7);
     results.forEach((k, v) -> assertThat(StringUtils.isEmpty(v)).isFalse());
@@ -83,7 +89,7 @@ public class ChartBuilderTest {
     image2.setContent("DCBA");
     image2.setKey("image2");
 
-    TestChartRequestDto requestDto = new TestChartRequestDto();
+    TestChartRequest requestDto = new TestChartRequest();
     requestDto.getImages().add(image1);
     requestDto.getImages().add(image2);
 
@@ -95,5 +101,17 @@ public class ChartBuilderTest {
 
     String kvp2 = results.get("image2");
     assertThat(kvp2).isEqualTo("data:image/png;base64, DCBA");
+  }
+
+  @Test
+  public void testGenerateContentTemplate() throws Exception {
+    String testTemplate = "$test";
+    Map<String, Object> map = new HashMap<>();
+    map.put("test", "content");
+    String result = chartBuilder.generateContentTemplate(map, testTemplate);
+    assertThat(result)
+            .isNotNull()
+            .isNotEmpty()
+            .isEqualTo("content");
   }
 }
