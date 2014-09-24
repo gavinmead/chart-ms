@@ -2,23 +2,22 @@
 <html ng-app="app">
 <head>
     <meta charset="utf-8" />
-    <style>
-        $nvd3csc
+    <style id="nvd3css">
+        $nvd3css
     </style>
     #if($useBootstrap == true)
-        <style>
+        <style id="bootstrap">
           $bootstrap
         </style>
     #end
-    <script>
+    <script id="baseScripts">
         $es5shim
         $angularjs
         $d3
         $nvd3
         $angularNvd3
     </script>
-    <script>
-        $app
+    <script id="appScript">
     </script>
 </head>
 <body body="ChartController">
