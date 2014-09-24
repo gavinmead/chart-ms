@@ -19,7 +19,7 @@
 
 package io.gmi.chart.api;
 
-import io.gmi.chart.dto.PingResponseDto;
+import io.gmi.chart.requests.PingResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;

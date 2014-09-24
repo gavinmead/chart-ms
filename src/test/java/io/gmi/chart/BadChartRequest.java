@@ -17,28 +17,25 @@
  * under the License.
  */
 
-package io.gmi.chart.api;
+package io.gmi.chart;
 
 import io.gmi.chart.requests.ChartRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 
-@RestController
-@RequestMapping(value = UrlConstants.LINE_CHART)
-public class ChartController {
+public class BadChartRequest extends ChartRequest {
 
-  private static final Logger log = LoggerFactory.getLogger(ChartController.class);
+  private static final Logger log = LoggerFactory.getLogger(BadChartRequest.class);
 
-  @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
-          produces = MediaType.IMAGE_PNG_VALUE, method = RequestMethod.POST)
-  public byte[] create(@RequestBody ChartRequest chartRequest, HttpServletResponse servletResponse) {
-    throw new UnsupportedOperationException("");
+  private String chartType;
+
+  public BadChartRequest(String chartType) {
+    this.chartType = chartType;
+  }
+
+  @Override
+  public String getType() {
+    return chartType;
   }
 }

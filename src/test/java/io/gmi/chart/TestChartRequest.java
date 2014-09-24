@@ -19,14 +19,14 @@
 
 package io.gmi.chart;
 
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class TestChartRequestDto extends ChartRequestDto {
+public class TestChartRequest extends ChartRequest {
 
-  private static final Logger log = LoggerFactory.getLogger(TestChartRequestDto.class);
+  private static final Logger log = LoggerFactory.getLogger(TestChartRequest.class);
 
   @Override
   public String getType() {

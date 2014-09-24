@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package io.gmi.chart.dto;
+package io.gmi.chart.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.gmi.chart.domain.LineChartOptions;
@@ -26,7 +26,7 @@ import io.gmi.chart.domain.LineChartSeries;
 import java.util.Collection;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LineChartRequestDto extends ChartRequestDto {
+public class LineChartRequest extends ChartRequest {
 
   public static final String chartType = "line";
 

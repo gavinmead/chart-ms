@@ -17,16 +17,29 @@
  * under the License.
  */
 
-package io.gmi.chart.dto;
+package io.gmi.chart.util;
 
-public class PingResponseDto {
-  private String status;
+import com.google.common.io.Files;
+import io.gmi.chart.ChartMSConfiguration;
+import org.apache.commons.lang.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-  public String getStatus() {
-    return status;
-  }
+import java.io.File;
 
-  public void setStatus(String status) {
-    this.status = status;
+
+public class ChartUtils {
+
+  private static final Logger log = LoggerFactory.getLogger(ChartUtils.class);
+  private static final Integer CHARACTER_COUNT = 10;
+
+  private ChartUtils() {}
+
+  public static File createTempFile(ChartMSConfiguration configuration) throws Exception {
+    String tempPath = configuration.DYNAMIC_TEMPLATE_PATH;
+    String fileName = RandomStringUtils.randomAlphanumeric(CHARACTER_COUNT) + ".vm";
+    File tempFile = new File(tempPath, fileName);
+    Files.createParentDirs(tempFile);
+    return tempFile;
   }
 }

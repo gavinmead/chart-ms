@@ -17,25 +17,16 @@
  * under the License.
  */
 
-package io.gmi.chart;
+package io.gmi.chart.requests;
 
-import io.gmi.chart.dto.ChartRequestDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class PingResponseDto {
+  private String status;
 
-
-public class BadChartRequestDto extends ChartRequestDto {
-
-  private static final Logger log = LoggerFactory.getLogger(BadChartRequestDto.class);
-
-  private String chartType;
-
-  public BadChartRequestDto(String chartType) {
-    this.chartType = chartType;
+  public String getStatus() {
+    return status;
   }
 
-  @Override
-  public String getType() {
-    return chartType;
+  public void setStatus(String status) {
+    this.status = status;
   }
 }
