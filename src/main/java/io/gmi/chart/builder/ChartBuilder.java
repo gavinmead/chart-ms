@@ -22,5 +22,5 @@ package io.gmi.chart.builder;
 import io.gmi.chart.requests.ChartRequest;
 
 public interface ChartBuilder {
-  ChartBuilderResult build(ChartRequest chartRequest);
+  ChartBuilderResult build(final ChartRequest chartRequest);
 }

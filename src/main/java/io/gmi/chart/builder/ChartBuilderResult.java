@@ -21,30 +21,10 @@ package io.gmi.chart.builder;
 
 public class ChartBuilderResult {
 
-  private boolean hasError;
-  private Throwable error;
   private byte[] result;
 
-  ChartBuilderResult(byte[] result) {
-    this(false, null, result);
-  }
-
-  ChartBuilderResult(boolean hasError, Throwable error) {
-    this(hasError, error, null);
-  }
-
-  ChartBuilderResult(boolean hasError, Throwable error, byte[] result) {
-    this.hasError = hasError;
-    this.error = error;
+  public ChartBuilderResult(byte[] result) {
     this.result = result;
-  }
-
-  public boolean isHasError() {
-    return hasError;
-  }
-
-  public Throwable getError() {
-    return error;
   }
 
   public byte[] getResult() {

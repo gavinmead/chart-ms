@@ -19,25 +19,58 @@
 
 package io.gmi.chart.builder;
 
+import io.gmi.chart.Action1;
 import io.gmi.chart.ChartMSConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
-public class ChartBuilderContext {
+class ChartBuilderContext {
+  static final String IMAGE_KEY = "_image_";
+  static final String HAS_ERROR_KEY = "_has.error_";
+  private String contextId = UUID.randomUUID().toString();
   private ChartMSConfiguration configuration;
   private Map<String, Object> contextMap = new HashMap<>();
 
-  public ChartBuilderContext(ChartMSConfiguration configuration) {
+  ChartBuilderContext() {
+  }
+
+  ChartBuilderContext(ChartMSConfiguration configuration) {
     this.configuration = configuration;
   }
 
-  public ChartMSConfiguration getConfiguration() {
+  ChartMSConfiguration getConfiguration() {
     return configuration;
   }
 
-  public Map<String, Object> getContextMap() {
+  Map<String, Object> getContextMap() {
     return contextMap;
+  }
+
+  <T> T getContextMapValue(String key, Class<T> clazz) {
+    return getContextMapValue(key, clazz, s -> {});
+  }
+
+  <T> T getContextMapValue(String key, Class<T> clazz, Action1<String> onEmpty) {
+    if(contextMap.containsKey(key)) {
+      return (T) contextMap.get(key);
+    } else {
+      onEmpty.run(key);
+      return null;
+    }
+  }
+
+  Boolean hasImageResult() {
+    return contextMap.containsKey(IMAGE_KEY);
+  }
+
+  Boolean hasError() {
+    return (Boolean) contextMap.getOrDefault(HAS_ERROR_KEY, Boolean.valueOf(false));
+  }
+
+  String getContextId() {
+    return contextId;
   }
 }
