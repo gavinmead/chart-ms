@@ -34,4 +34,6 @@ public class Constants {
   public static final String $APP = "app";
   public static final String $CONTENT = "content";
   public static final String $ES5_SHIM = "es5shim";
+
+  public static final String RESOURCE = "resources";
 }

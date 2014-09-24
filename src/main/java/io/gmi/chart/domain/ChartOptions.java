@@ -19,4 +19,29 @@ package io.gmi.chart.domain;
 public abstract class ChartOptions {
   private int width;
   private int height;
+  private Boolean showLegend = true;
+
+  public int getWidth() {
+    return width;
+  }
+
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
+  public Boolean getShowLegend() {
+    return showLegend;
+  }
+
+  public void setShowLegend(Boolean showLegend) {
+    this.showLegend = showLegend;
+  }
 }

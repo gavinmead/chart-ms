@@ -43,7 +43,6 @@ public abstract class ChartRequestDto {
   public Map<String, String> keys;
   public String template;
   public String chartId;
-  public Boolean showLegend = true;
   public ChartOptions chartOptions;
 
   public Boolean getUseBootstrap() {
@@ -86,14 +85,6 @@ public abstract class ChartRequestDto {
 
   public void setChartId(String chartId) {
     this.chartId = chartId;
-  }
-
-  public Boolean getShowLegend() {
-    return showLegend;
-  }
-
-  public void setShowLegend(Boolean showLegend) {
-    this.showLegend = showLegend;
   }
 
   public ChartOptions getChartOptions() {

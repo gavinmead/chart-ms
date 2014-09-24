@@ -21,13 +21,13 @@ package io.gmi.chart.builder;
 
 import io.gmi.chart.ChartMSConfiguration;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ChartBuilderContext {
   private ChartMSConfiguration configuration;
-  private Map<String, Object> contextMap = new ConcurrentHashMap<>();
+  private Map<String, Object> contextMap = new HashMap<>();
 
   public ChartBuilderContext(ChartMSConfiguration configuration) {
     this.configuration = configuration;

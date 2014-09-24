@@ -20,8 +20,8 @@
 package io.gmi.chart.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.gmi.chart.domain.LineChartDataPoint;
 import io.gmi.chart.domain.LineChartOptions;
+import io.gmi.chart.domain.LineChartSeries;
 
 import java.util.Collection;
 
@@ -34,7 +34,7 @@ public class LineChartRequestDto extends ChartRequestDto {
 
   LineChartOptions lineChartOptions;
 
-  private Collection<LineChartDataPoint> data;
+  private Collection<LineChartSeries> data;
 
   public LineChartOptions getLineChartOptions() {
     return lineChartOptions;
@@ -52,12 +52,15 @@ public class LineChartRequestDto extends ChartRequestDto {
     this.type = type;
   }
 
-  public Collection<LineChartDataPoint> getData() {
+  public static String getChartType() {
+    return chartType;
+  }
+
+  public Collection<LineChartSeries> getData() {
     return data;
   }
 
-  public void setData(Collection<LineChartDataPoint> data) {
+  public void setData(Collection<LineChartSeries> data) {
     this.data = data;
   }
-
 }

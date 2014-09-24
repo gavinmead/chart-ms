@@ -19,5 +19,20 @@ package io.gmi.chart.domain;
 public class LineChartOptions extends ChartOptions {
   private Axis xAxis;
   private Axis yAxis;
-  
+
+  public Axis getxAxis() {
+    return xAxis;
+  }
+
+  public void setxAxis(Axis xAxis) {
+    this.xAxis = xAxis;
+  }
+
+  public Axis getyAxis() {
+    return yAxis;
+  }
+
+  public void setyAxis(Axis yAxis) {
+    this.yAxis = yAxis;
+  }
 }
