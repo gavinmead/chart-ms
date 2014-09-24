@@ -3,7 +3,7 @@ package io.gmi.chart.builder;
 import io.gmi.chart.Application;
 import io.gmi.chart.ChartMSConfiguration;
 import io.gmi.chart.Constants;
-import io.gmi.chart.TestChartRequestDto;
+import io.gmi.chart.TestChartRequest;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class ScriptStylesDelegateTest {
 
   @Test
   public void testHandle() throws Exception {
-    delegate.handle(context, new TestChartRequestDto());
+    delegate.handle(context, new TestChartRequest());
     Map<String, String> results = (Map<String, String>) context.getContextMap().get(Constants.RESOURCE);
     assertThat(results).isNotNull();
     assertThat(results.size()).isEqualTo(7);

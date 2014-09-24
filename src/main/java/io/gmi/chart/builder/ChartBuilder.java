@@ -19,8 +19,8 @@
 
 package io.gmi.chart.builder;
 
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
 
 public interface ChartBuilder {
-  ChartBuilderResult build(ChartRequestDto chartRequestDto);
+  ChartBuilderResult build(ChartRequest chartRequest);
 }

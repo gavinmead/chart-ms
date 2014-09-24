@@ -3,7 +3,7 @@ package io.gmi.chart.builder;
 import com.google.common.annotations.VisibleForTesting;
 import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.Constants;
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ResourceLoaderAware;
@@ -23,7 +23,7 @@ public class ScriptStylesDelegate extends ChartBuilderDelegate implements Resour
   private ResourceLoader resourceLoader;
 
   @Override
-  void handle(ChartBuilderContext context, ChartRequestDto requestDto) {
+  void handle(ChartBuilderContext context, ChartRequest request) {
     //Create a list of resources to use
     try {
       final Map<String, File> resourceMap = new HashMap<>();
@@ -51,7 +51,7 @@ public class ScriptStylesDelegate extends ChartBuilderDelegate implements Resour
           resourceLoader
               .getResource(context.getConfiguration().ES5_SHIM_SCRIPT_PATH())
               .getFile());
-      if (requestDto.getUseBootstrap()) {
+      if (request.getUseBootstrap()) {
         resourceMap.put(Constants.$BOOTSTRAP,
             resourceLoader
                 .getResource(context.getConfiguration().BOOTSTRAP_CSS_PATH())

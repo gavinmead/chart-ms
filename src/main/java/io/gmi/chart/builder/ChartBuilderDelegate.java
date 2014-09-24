@@ -1,8 +1,7 @@
 package io.gmi.chart.builder;
 
-
-import io.gmi.chart.dto.ChartRequestDto;
+import io.gmi.chart.requests.ChartRequest;
 
 abstract class ChartBuilderDelegate {
-  abstract void handle(ChartBuilderContext context, ChartRequestDto requestDto);
+  abstract void handle(ChartBuilderContext context, ChartRequest request);
 }

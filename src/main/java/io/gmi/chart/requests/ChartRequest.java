@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package io.gmi.chart.dto;
+package io.gmi.chart.requests;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -37,7 +37,7 @@ import java.util.Map;
 @JsonSubTypes(
         {@JsonSubTypes.Type(value= LineChartOptions.class, name = "line")}
 )
-public abstract class ChartRequestDto {
+public abstract class ChartRequest {
   private Boolean useBootstrap = true;
   public List<Image> images = new ArrayList<>();
   public Map<String, String> keys;
