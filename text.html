@@ -22,8 +22,14 @@ app.controller('MainCtrl', function($scope) {
        $scope.options = {
             chart: {
                 type: chartingOptions.type,
-				width: 1030,
+				width: 1045,
                 height: 630,
+                margin : {
+                    top: 20,
+                    right: 50,
+                    bottom: 40,
+                    left: 55
+                },
                 //x: function(d){ return d.x; },
                 //y: function(d){ return d.y; },
                 useInteractiveGuideline: false,
@@ -32,13 +38,16 @@ app.controller('MainCtrl', function($scope) {
 					console.log("rendered=1");
 				},
                 xAxis: {
-                    axisLabel: 'Test X'
+                    axisLabel: 'Test X',
+                    tickFormat: function(d) {
+                        return d3.time.format('%m/%d/%Y')(new Date(d));
+                    }
                 },
                 yAxis: {
                     axisLabel: 'Test Y',
-                    //tickFormat: function(d){
-                    //    return d3.format('.02f')(d);
-                    //},
+                    tickFormat: function(d){
+                        return d3.format('.02f')(d);
+                    },
                     axisLabelDistance: 30
                 }
             }
@@ -49,10 +58,13 @@ app.controller('MainCtrl', function($scope) {
         /*Random Data Generator */
         function sinAndCos() {
             var sin = []
-
+            //Data is represented as an array of {x,y} pairs.
+            var startDate = new Date(2013, 0, 1, 0, 0, 0, 0);
+            var dateToUse = startDate;
             //Data is represented as an array of {x,y} pairs.
             for (var i = 0; i < 100; i++) {
-                sin.push({x: i, y: i});
+                sin.push({x: dateToUse , y: Math.sin(i/10)});
+                dateToUse = new Date(dateToUse.valueOf() + 86400000);
             }
 
             //Line chart data should be sent as an array of series objects.

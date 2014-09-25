@@ -26,4 +26,6 @@ public class BuilderConfig {
     return new MainTemplateDelegate(velocityEngine);
   }
 
+  @Bean
+  public ChartBuilderDelegate lineChartContentDelegate() { return new LineChartContentDelegate(velocityEngine);}
 }

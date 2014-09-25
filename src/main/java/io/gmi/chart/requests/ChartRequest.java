@@ -19,11 +19,9 @@
 
 package io.gmi.chart.requests;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.gmi.chart.domain.ChartOptions;
 import io.gmi.chart.domain.Image;
-import io.gmi.chart.domain.LineChartOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +31,6 @@ import java.util.Map;
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
         property = "type"
-)
-@JsonSubTypes(
-        {@JsonSubTypes.Type(value= LineChartOptions.class, name = "line")}
 )
 public abstract class ChartRequest {
   private Boolean useBootstrap = true;

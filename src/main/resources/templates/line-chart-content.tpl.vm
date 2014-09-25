@@ -1,0 +1,20 @@
+
+app.constant('content', {
+  data: function() {
+    var seriesList = [];
+
+    //Create a set of arrays based on the number series
+    #foreach($series in $seriesList)
+      var content${foreach.count} = [];
+      #set ($currentCount = $foreach.count )
+      #foreach($value in $series.values)
+        content${currentCount}.push({x: $value.x, y: $value.y});
+      #end
+      //Add the series info the seriesList
+      seriesList.push({values: content${foreach.count},key: '$series.key', color: '$series.color'});
+    #end
+
+    //Line chart data should be sent as an array of series objects.
+    return seriesList;
+  }
+});

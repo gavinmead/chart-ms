@@ -1,0 +1,14 @@
+var app = angular.module('app', ['nvd3']);
+$appContent
+#set ( $scope = "$scope")
+app.controller('ChartController', function($scope, content) {
+    ${scope}.options = {
+        chart: $chartOptions
+        }
+    };
+
+    ${scope}.options.chart.callback = function(chart) {
+      console.log("rendered=1");
+    };
+    ${scope}.data = content.data;
+});
