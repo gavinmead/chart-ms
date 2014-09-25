@@ -32,9 +32,12 @@ abstract class AppContentDelegate extends ChartBuilderDelegate {
     appJsContentMap.put("appContent", appContent);
     String jsApplication = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, TEMPLATE, "utf-8", appJsContentMap);
     context.getContextMap().put(ChartBuilderContext.JS_APPLICATION_KEY, jsApplication);
+    context.getContextMap().put(ChartBuilderContext.CHART_TAG_KEY, getChartTag());
   }
 
   protected abstract String getAppContent(ChartBuilderContext context, ChartRequest request);
+
+  protected abstract String getChartTag();
 
   protected VelocityEngine getVelocityEngine() {
     return velocityEngine;

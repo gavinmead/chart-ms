@@ -35,7 +35,7 @@ import java.util.Map;
 public abstract class ChartRequest {
   private Boolean useBootstrap = true;
   public List<Image> images = new ArrayList<>();
-  public Map<String, String> keys;
+  public Map<String, String> templateContent;
   public String template;
   public String chartId;
   public ChartOptions chartOptions;
@@ -56,12 +56,12 @@ public abstract class ChartRequest {
     this.images = images;
   }
 
-  public Map<String, String> getKeys() {
-    return keys;
+  public Map<String, String> getTemplateContent() {
+    return templateContent;
   }
 
-  public void setKeys(Map<String, String> keys) {
-    this.keys = keys;
+  public void setTemplateContent(Map<String, String> templateContent) {
+    this.templateContent = templateContent;
   }
 
   public String getTemplate() {

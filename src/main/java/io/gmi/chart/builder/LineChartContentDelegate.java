@@ -18,6 +18,7 @@ class LineChartContentDelegate extends AppContentDelegate {
 
   private static final Logger log = LoggerFactory.getLogger(LineChartContentDelegate.class);
   private static final String TEMPLATE = "line-chart-content.tpl.vm";
+  private static final String CHART_TAG = "<nvd3 options=\"options\" data=\"data\" class=\"with-3d-shadow with-transitions\"></nvd3>";
 
   LineChartContentDelegate(VelocityEngine velocityEngine) {
     super(velocityEngine);
@@ -30,5 +31,10 @@ class LineChartContentDelegate extends AppContentDelegate {
     Map<String, Object> contentMap = new HashMap<>();
     contentMap.put("seriesList", lineChartRequest.getData());
     return VelocityEngineUtils.mergeTemplateIntoString(getVelocityEngine(), TEMPLATE, "utf-8", contentMap);
+  }
+
+  @Override
+  protected String getChartTag() {
+    return CHART_TAG;
   }
 }

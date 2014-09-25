@@ -32,6 +32,8 @@ class ChartBuilderContext {
   static final String HAS_ERROR_KEY = "_has.error_";
   static final String MAIN_TEMPLATE_FILE_KEY = "_main.template.file_";
   static final String JS_APPLICATION_KEY = "_app.content_";
+  static final String CHART_TAG_KEY = "_chart.tag_";
+  static final String REQUEST_TEMPLATE_CONTENT_KEY = "_request.template.content_";
   private String contextId = UUID.randomUUID().toString();
   private ChartMSConfiguration configuration;
   private Map<String, Object> contextMap = new HashMap<>();

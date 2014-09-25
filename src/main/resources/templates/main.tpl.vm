@@ -20,6 +20,6 @@
     <script id="appScript">
     </script>
 </head>
-<body body="ChartController">
+<body ng-controller="ChartController">
 </body>
 </html>
