@@ -36,7 +36,7 @@ public class ImageProcessingDelegateTest {
     ChartRequest chartRequest = new TestChartRequest();
     chartRequest.setImages(imageList);
     delegate.handle(context, chartRequest);
-    Map<String, String> imageMap = context.getContextMapValue("IMAGES", Map.class);
+    Map<String, String> imageMap = context.getContextMapValue(ChartBuilderContext.IMAGE_KEY, Map.class);
     assertThat(imageMap).hasSize(2);
     assertThat(imageMap.get("1")).isEqualTo("data:image/png;base64, ABCD");
     assertThat(imageMap.get("2")).isEqualTo("data:image/png;base64, DCBA");

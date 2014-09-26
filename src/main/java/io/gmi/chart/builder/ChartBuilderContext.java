@@ -28,6 +28,7 @@ import java.util.UUID;
 
 
 class ChartBuilderContext {
+  static final String RENDERED_CHART_KEY = "_rendered.chart_";
   static final String IMAGE_KEY = "_image_";
   static final String HAS_ERROR_KEY = "_has.error_";
   static final String MAIN_TEMPLATE_FILE_KEY = "_main.template.file_";
@@ -68,7 +69,7 @@ class ChartBuilderContext {
   }
 
   Boolean hasImageResult() {
-    return contextMap.containsKey(IMAGE_KEY);
+    return contextMap.containsKey(RENDERED_CHART_KEY);
   }
 
   Boolean hasError() {

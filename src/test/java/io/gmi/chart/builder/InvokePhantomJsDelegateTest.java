@@ -57,6 +57,11 @@ public class InvokePhantomJsDelegateTest {
     String expectedFile = context.getConfiguration().WORKING_DIRECTORY_PATH() + File.separator + context.getContextId() + ".png";
     Resource expectedFileResource = resourceLoader.getResource(expectedFile);
     assertThat(expectedFile).isNotNull();
+  }
 
+  @Test(expected = RuntimeException.class)
+  public void testHandleError() throws Exception {
+    context.getContextMap().remove(ChartBuilderContext.FINAL_HTML_FILE_KEY);   //Should cause phantomjs to hang.
+    delegate.handle(context, request);
   }
 }

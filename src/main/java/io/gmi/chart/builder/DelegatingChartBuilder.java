@@ -46,7 +46,7 @@ public class DelegatingChartBuilder implements ChartBuilder {
 
     if(!chartBuilderContext.hasError()) {
       if(chartBuilderContext.hasImageResult()) {
-        return new ChartBuilderResult(chartBuilderContext.getContextMapValue(ChartBuilderContext.IMAGE_KEY, byte[].class));
+        return new ChartBuilderResult(chartBuilderContext.getContextMapValue(ChartBuilderContext.RENDERED_CHART_KEY, byte[].class));
       } else {
         throw new ChartBuilderException("No delegate provided an image to the chart builder context.");
       }

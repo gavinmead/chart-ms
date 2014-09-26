@@ -23,8 +23,8 @@ class ImageProcessingDelegate extends ChartBuilderDelegate {
     final Map<String, String> resultsMap = new HashMap<>();
     List<Image> images = request.getImages();
     images.forEach(image -> resultsMap.put(image.getKey(), buildImageSourceString(image)));
-    log.info("Added {} images to context under key IMAGES", images.size());
-    context.getContextMap().put("IMAGES", resultsMap);
+    log.info("Added {} images to context under key {}", ChartBuilderContext.IMAGE_KEY, images.size());
+    context.getContextMap().put(ChartBuilderContext.IMAGE_KEY, resultsMap);
   }
 
   private String buildImageSourceString(Image image) {

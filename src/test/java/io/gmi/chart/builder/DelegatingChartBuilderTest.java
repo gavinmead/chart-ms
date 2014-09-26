@@ -31,7 +31,7 @@ public class DelegatingChartBuilderTest {
     imageProducingDelegate = mock(ChartBuilderDelegate.class);
     doAnswer(invocation -> {
       ChartBuilderContext context = (ChartBuilderContext) invocation.getArguments()[0];
-      context.getContextMap().put(ChartBuilderContext.IMAGE_KEY, new byte[]{0, 1, 2});
+      context.getContextMap().put(ChartBuilderContext.RENDERED_CHART_KEY, new byte[]{0, 1, 2});
       return null;
     }).when(imageProducingDelegate).handle(any(ChartBuilderContext.class), eq(testRequest));
 
