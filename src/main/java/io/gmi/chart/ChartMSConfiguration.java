@@ -89,6 +89,10 @@ public class ChartMSConfiguration implements InitializingBean {
     return environment.getProperty(CHART_BUILDER_THREAD_POOL_KEY, Integer.class);
   }
 
+  public final String WORKING_DIRECTORY_PATH() {
+    return environment.getProperty("user.dir") + File.separator + "working";
+  }
+
   private String getProperty(String property) {
     return environment.getProperty(property);
   }

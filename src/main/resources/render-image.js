@@ -12,13 +12,6 @@ page.viewportSize = {
   height: 1600
 };
 
-/*page.clipRect = {
-  top: 0,
-  left: 0,
-  width: args[1],
-  height: args[2]
-}*/
-
 capture = function(targetFile, clipRect) {
     //var clipRect = {top: 0, left:0, width: 40, height: 40};
     if (clipRect) {

@@ -32,6 +32,16 @@ public abstract class ChartRequest {
   public Map<String, String> templateContent;
   public String template;
   public String chartId;
+  public String clippingDivId;
+
+  public String getClippingDivId() {
+    return clippingDivId;
+  }
+
+  public void setClippingDivId(String clippingDivId) {
+    this.clippingDivId = clippingDivId;
+  }
+
   public ChartOptions chartOptions;
 
   public Boolean getUseBootstrap() {
@@ -83,4 +93,6 @@ public abstract class ChartRequest {
   public void setChartOptions(ChartOptions chartOptions) {
     this.chartOptions = chartOptions;
   }
+
+
 }

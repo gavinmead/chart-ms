@@ -31,4 +31,10 @@ public class BuilderConfig {
 
   @Bean
   public ChartBuilderDelegate requestTemplateDelegate() { return new RequestTemplateDelegate(velocityEngine);}
+
+  @Bean
+  public ChartBuilderDelegate phantomJsInvokerDelegate() {return new InvokePhantomJsDelegate();}
+
+
+
 }

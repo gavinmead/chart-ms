@@ -16,12 +16,24 @@
 
 package io.gmi.chart;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
+
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+
 /**
  * Created by gmead on 8/21/2014.
  */
@@ -29,6 +41,11 @@ import org.springframework.test.context.ContextConfiguration;
 @EnableAutoConfiguration
 @ComponentScan
 public class Application implements CommandLineRunner {
+
+  private static final Logger log = LoggerFactory.getLogger(Application.class);
+
+  @Autowired
+  ResourceLoader resourceLoader;
 
   @Value("${version}")
   private String version;
@@ -40,6 +57,35 @@ public class Application implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     System.out.println("Version=" + version);
+
   }
+
+  @PostConstruct
+  void setupWorkingDir() throws Exception {
+    log.info("Creating working directory...");
+    Path userDir = Paths.get(System.getProperty("user.dir") + File.separator + "working");
+    if(userDir.toFile().exists()) {
+      log.info("Deleting existing working directory");
+      Files.walkFileTree(userDir, new SimpleFileVisitor<Path>(){
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+          Files.delete(file);
+          return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+          Files.delete(dir);
+          return FileVisitResult.CONTINUE;
+        }
+      });
+    }
+
+    Files.createDirectory(userDir);
+    Path scriptFile = Paths.get(userDir.toString() + File.separator + "render-image.js");
+    Resource renderScript = resourceLoader.getResource("classpath:render-image.js");
+    Files.copy(renderScript.getInputStream(), scriptFile);
+  }
+
 
 }
