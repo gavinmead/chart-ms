@@ -19,7 +19,6 @@
 
 package io.gmi.chart.requests;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.gmi.chart.domain.ChartOptions;
 import io.gmi.chart.domain.Image;
 
@@ -27,11 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type"
-)
 public abstract class ChartRequest {
   private Boolean useBootstrap = true;
   public List<Image> images = new ArrayList<>();

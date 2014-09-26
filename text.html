@@ -30,8 +30,8 @@ app.controller('MainCtrl', function($scope) {
                     bottom: 40,
                     left: 55
                 },
-                //x: function(d){ return d.x; },
-                //y: function(d){ return d.y; },
+                x: function(d){ return d.x; },
+                y: function(d){ return d.y; },
                 useInteractiveGuideline: false,
 				interactive : false,
 				callback: function(chart) {
@@ -60,18 +60,18 @@ app.controller('MainCtrl', function($scope) {
             var sin = []
             //Data is represented as an array of {x,y} pairs.
             var startDate = new Date(2013, 0, 1, 0, 0, 0, 0);
-            var dateToUse = startDate;
+            var dateToUse = startDate.valueOf();
             //Data is represented as an array of {x,y} pairs.
-            for (var i = 0; i < 100; i++) {
-                sin.push({x: dateToUse , y: Math.sin(i/10)});
-                dateToUse = new Date(dateToUse.valueOf() + 86400000);
+            for (var i = 0; i < 10; i++) {
+                sin.push({x: dateToUse , y: i});
+                dateToUse = dateToUse + 86400000;
             }
 
             //Line chart data should be sent as an array of series objects.
             return [
                 {
                     values: sin,      //values - represents the array of {x,y} data points
-                    key: 'Sine Wave', //key  - the name of the series.
+                    key: 'Test', //key  - the name of the series.
                     color: '#ff7f0e'  //color - optional: choose your own line color.
                 }               
             ];

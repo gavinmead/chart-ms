@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by gmead on 9/25/14.
  */
-public class RequestTemplateDelegate extends ChartBuilderDelegate {
+class RequestTemplateDelegate extends ChartBuilderDelegate {
 
   private static final Logger log = LoggerFactory.getLogger(RequestTemplateDelegate.class);
   private static final String TEMP_REQUEST_FILE_FORMAT = "%s-request.tpl.vm";
