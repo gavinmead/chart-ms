@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.velocity.VelocityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -38,7 +39,7 @@ import java.nio.file.attribute.BasicFileAttributes;
  * Created by gmead on 8/21/2014.
  */
 @ContextConfiguration
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = {VelocityAutoConfiguration.class})
 @ComponentScan
 public class Application implements CommandLineRunner {
 
@@ -66,7 +67,7 @@ public class Application implements CommandLineRunner {
     Path userDir = Paths.get(System.getProperty("user.dir") + File.separator + "working");
     if(userDir.toFile().exists()) {
       log.info("Deleting existing working directory");
-      Files.walkFileTree(userDir, new SimpleFileVisitor<Path>(){
+      Files.walkFileTree(userDir, new SimpleFileVisitor<Path>() {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
           Files.delete(file);

@@ -35,6 +35,13 @@ public class BuilderConfig {
   @Bean
   public ChartBuilderDelegate phantomJsInvokerDelegate() {return new InvokePhantomJsDelegate();}
 
+  @Bean
+  public ChartBuilderDelegate renderedImageWriterDelegate() {return new RenderedImageWriterDelegate();}
 
+  @Bean
+  public ChartBuilderDelegate imageProcessingDelegate() {return new ImageProcessingDelegate();}
+
+  @Bean
+  public ChartBuilderDelegate mergeContentDelegate() {return new MergeContentDelegate();}
 
 }

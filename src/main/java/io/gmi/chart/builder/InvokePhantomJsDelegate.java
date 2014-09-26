@@ -40,6 +40,7 @@ class InvokePhantomJsDelegate extends ChartBuilderDelegate {
     log.info("Submitting arguments {} to phantomjs", argumentMap);
     try {
       executor.execute(commandLine);
+      context.getContextMap().put(ChartBuilderContext.RENDERED_CHART_FILE_KEY, argumentMap.get("outfile"));
     } catch (IOException e) {
       throw new RuntimeException("An error occurred while running phantomjs", e);
     }

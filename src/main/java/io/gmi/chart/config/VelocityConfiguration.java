@@ -43,6 +43,8 @@ public class VelocityConfiguration {
   public VelocityEngineFactoryBean velocityEngine() {
     VelocityEngineFactoryBean factoryBean = new VelocityEngineFactoryBean();
     factoryBean.setResourceLoaderPath(CLASSPATH_TEMPLATE + "," + "file:" + chartMSConfiguration.DYNAMIC_TEMPLATE_PATH);
+    factoryBean.setPreferFileSystemAccess(false);
+
     return factoryBean;
   }
 

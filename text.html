@@ -16,71 +16,37 @@
     <script src="https://rawgit.com/novus/nvd3/master/nv.d3.min.js"></script>
     <script src="https://rawgit.com/krispo/angular-nvd3/master/dist/angular-nvd3.js"></script>
     <script>
-	var app = angular.module('app', ['nvd3']);
-
-app.controller('MainCtrl', function($scope) {
-       $scope.options = {
-            chart: {
-                type: chartingOptions.type,
-				width: 1045,
+        'use strict';
+        var app = angular.module('app', ['nvd3']);
+        app.constant('content', { data: function() { var seriesList = []; var content1 = []; content1.push({x: 1388552400000, y: 0}); content1.push({x: 1388638800000, y: 1}); content1.push({x: 1388725200000, y: 2}); content1.push({x: 1388811600000, y: 3}); content1.push({x: 1388898000000, y: 4}); content1.push({x: 1388984400000, y: 5}); content1.push({x: 1389070800000, y: 6}); content1.push({x: 1389157200000, y: 7}); content1.push({x: 1389243600000, y: 8}); content1.push({x: 1389330000000, y: 9}); seriesList.push({values: content1,key: 'Data', color: '#ff7f0e'}); return seriesList; } });
+        app.controller('ChartController', function($scope, content) {
+            $scope.options = { chart: {
+                type: 'lineChart',
+                width: 1045,
                 height: 630,
-                margin : {
+                margin: {
                     top: 20,
                     right: 50,
                     bottom: 40,
-                    left: 55
-                },
+                    left: 55 },
                 x: function(d){ return d.x; },
                 y: function(d){ return d.y; },
                 useInteractiveGuideline: false,
-				interactive : false,
-				callback: function(chart) {
-					console.log("rendered=1");
-				},
+                interactive : false,
                 xAxis: {
                     axisLabel: 'Test X',
-                    tickFormat: function(d) {
-                        return d3.time.format('%m/%d/%Y')(new Date(d));
-                    }
+                    tickFormat: function(d) { return d3.time.format('%m/%d/%Y')(new Date(d)); }
                 },
                 yAxis: {
                     axisLabel: 'Test Y',
-                    tickFormat: function(d){
-                        return d3.format('.02f')(d);
-                    },
+                    tickFormat: function(d){ return d3.format('.02f')(d); },
                     axisLabelDistance: 30
                 }
-            }
-        };
-
-        $scope.data = sinAndCos();
-
-        /*Random Data Generator */
-        function sinAndCos() {
-            var sin = []
-            //Data is represented as an array of {x,y} pairs.
-            var startDate = new Date(2013, 0, 1, 0, 0, 0, 0);
-            var dateToUse = startDate.valueOf();
-            //Data is represented as an array of {x,y} pairs.
-            for (var i = 0; i < 10; i++) {
-                sin.push({x: dateToUse , y: i});
-                dateToUse = dateToUse + 86400000;
-            }
-
-            //Line chart data should be sent as an array of series objects.
-            return [
-                {
-                    values: sin,      //values - represents the array of {x,y} data points
-                    key: 'Test', //key  - the name of the series.
-                    color: '#ff7f0e'  //color - optional: choose your own line color.
-                }               
-            ];
-        };
-});
+            } } ; $scope.options.chart.callback = function(chart) { console.log('rendered=1'); }; $scope.data = content.data; });
 	</script>
   </head>
 
-  <body ng-controller="MainCtrl">
+  <body ng-controller="ChartController">
 	<div class="container">
 		<div id="test" style='width:1045px;float:left;border-style:solid; border-width:1px;'>
 			<div class="row">

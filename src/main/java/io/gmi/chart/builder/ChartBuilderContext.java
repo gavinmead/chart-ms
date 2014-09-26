@@ -28,6 +28,7 @@ import java.util.UUID;
 
 
 class ChartBuilderContext {
+  static final String RENDERED_CHART_FILE_KEY = "_rendered.chart.file_";
   static final String RENDERED_CHART_KEY = "_rendered.chart_";
   static final String IMAGE_KEY = "_image_";
   static final String HAS_ERROR_KEY = "_has.error_";

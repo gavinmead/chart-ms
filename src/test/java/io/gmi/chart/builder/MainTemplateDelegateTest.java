@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class MainTemplateDelegateTest {
   }
 
   @Test
+  @Ignore
   public void testHandle() throws Exception {
     delegate.handle(context, new TestChartRequest());
     assertThat(context.getContextMap().containsKey(ChartBuilderContext.MAIN_TEMPLATE_FILE_KEY)).isTrue();
@@ -79,6 +81,7 @@ public class MainTemplateDelegateTest {
   }
 
   @Test
+  @Ignore
   public void testHandleNoBootstrap() throws Exception {
     resources.remove(Constants.$BOOTSTRAP);
     delegate.handle(context, new TestChartRequest());

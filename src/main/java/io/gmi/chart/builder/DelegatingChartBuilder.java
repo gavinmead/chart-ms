@@ -1,5 +1,6 @@
 package io.gmi.chart.builder;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import io.gmi.chart.ChartBuilderException;
 import io.gmi.chart.ChartMSConfiguration;
@@ -59,4 +60,8 @@ public class DelegatingChartBuilder implements ChartBuilder {
     }
   }
 
+  @VisibleForTesting
+  Collection<ChartBuilderDelegate> getChartBuilderDelegates() {
+    return chartBuilderDelegates;
+  }
 }
