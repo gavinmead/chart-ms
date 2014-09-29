@@ -2,19 +2,15 @@
 <html ng-app="app">
 <head>
     <meta charset="utf-8" />
-    <style id="nvd3css">
-        $nvd3css
-    </style>
+    <link href="$nvd3css" rel="stylesheet">
     #if($useBootstrap == true)
-        <style id="bootstrap">
-          $bootstrap
-        </style>
+        <link href="$bootstrap" rel="stylesheet">
     #end
-    <script src="https://raw.githubusercontent.com/es-shims/es5-shim/master/es5-shim.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
-    <script src="https://rawgit.com/mbostock/d3/master/d3.min.js"></script>
-    <script src="https://rawgit.com/novus/nvd3/master/nv.d3.min.js"></script>
-    <script src="https://rawgit.com/krispo/angular-nvd3/master/dist/angular-nvd3.js"></script>
+    <script src="$es5shim"></script>
+    <script src="$angularjs"></script>
+    <script src="$d3"></script>
+    <script src="$nvd3"></script>
+    <script src="$angularNvd3"></script>
     <script id="appScript">
     </script>
 </head>

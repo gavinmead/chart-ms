@@ -29,7 +29,7 @@ class MainTemplateDelegate extends ChartBuilderDelegate {
 
   @Override
   void handle(ChartBuilderContext context, ChartRequest request) {
-    Map<String, String> resources = context.getContextMapValue(Constants.RESOURCE, Map.class,
+    Map<String, String> resources = context.getContextMapValue(ChartBuilderContext.RESOURCES_KEY, Map.class,
         this::handleMissingContextResource);
     Map<String, Object> templateMap = new HashMap<>();
     templateMap.putAll(resources);

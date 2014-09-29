@@ -48,6 +48,9 @@ public class Application implements CommandLineRunner {
   @Autowired
   ResourceLoader resourceLoader;
 
+  @Autowired
+  ChartMSConfiguration configuration;
+
   @Value("${version}")
   private String version;
 
@@ -83,10 +86,20 @@ public class Application implements CommandLineRunner {
     }
 
     Files.createDirectory(userDir);
-    Path scriptFile = Paths.get(userDir.toString() + File.separator + "render-image.js");
-    Resource renderScript = resourceLoader.getResource("classpath:render-image.js");
-    Files.copy(renderScript.getInputStream(), scriptFile);
+    copyToWorkingDir(configuration.WORKING_DIRECTORY_PATH() + File.separator + "render-image.js", "classpath:render-image.js");
+    copyToWorkingDir(configuration.NVD3_CSS_WORKING_PATH(), configuration.NVD3_CSS_PATH());
+    copyToWorkingDir(configuration.BOOSTRAP_CSS_WORKING_PATH(), configuration.BOOTSTRAP_CSS_PATH());
+    copyToWorkingDir(configuration.ES5_SHIM_SCRIPT_WORKING_PATH(), configuration.ES5_SHIM_SCRIPT_PATH());
+    copyToWorkingDir(configuration.ANGULAR_SCRIPT_WORKING_PATH(), configuration.ANGULAR_SCRIPT_PATH());
+    copyToWorkingDir(configuration.D3_SCRIPT_WORKING_PATH(), configuration.D3_SCRIPT_PATH());
+    copyToWorkingDir(configuration.NVD3_SCRIPT_WORKING_PATH(), configuration.NVD3_SCRIPT_PATH());
+    copyToWorkingDir(configuration.ANGULAR_NVD3_SCRIPT_WORKING_PATH(), configuration.ANGULAR_NVD3_SCRIPT_PATH());
   }
 
+  private void copyToWorkingDir(String path, String resource) throws Exception {
+    Path pathToUse = Paths.get(path);
+    Resource resourceToUse = resourceLoader.getResource(resource);
+    Files.copy(resourceToUse.getInputStream(), pathToUse);
+  }
 
 }

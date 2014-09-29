@@ -28,6 +28,7 @@ import java.util.UUID;
 
 
 class ChartBuilderContext {
+
   static final String RENDERED_CHART_FILE_KEY = "_rendered.chart.file_";
   static final String RENDERED_CHART_KEY = "_rendered.chart_";
   static final String IMAGE_KEY = "_image_";
@@ -37,6 +38,8 @@ class ChartBuilderContext {
   static final String CHART_TAG_KEY = "_chart.tag_";
   static final String REQUEST_TEMPLATE_CONTENT_KEY = "_request.template.content_";
   static final String FINAL_HTML_FILE_KEY = "_final.html.file_";
+  static final String RESOURCES_KEY = "_resources_";
+
   private String contextId = UUID.randomUUID().toString();
   private ChartMSConfiguration configuration;
   private Map<String, Object> contextMap = new HashMap<>();

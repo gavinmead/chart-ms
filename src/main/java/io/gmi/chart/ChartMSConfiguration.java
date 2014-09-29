@@ -85,6 +85,20 @@ public class ChartMSConfiguration implements InitializingBean {
 
   public final String LINE_CHART_OPTION() { return getProperty(LINE_CHART_OPTION_TYPE); }
 
+  public final String NVD3_CSS_WORKING_PATH() { return WORKING_DIRECTORY_PATH() + File.separator + "nv.d3.min.css"; }
+
+  public final String BOOSTRAP_CSS_WORKING_PATH() { return WORKING_DIRECTORY_PATH() + File.separator + "bootstrap.min.css"; }
+
+  public final String ES5_SHIM_SCRIPT_WORKING_PATH() { return WORKING_DIRECTORY_PATH() + File.separator + "es5-shim.js"; }
+
+  public final String ANGULAR_SCRIPT_WORKING_PATH() { return WORKING_DIRECTORY_PATH() + File.separator + "angular.min.js"; }
+
+  public final String D3_SCRIPT_WORKING_PATH() { return WORKING_DIRECTORY_PATH() + File.separator + "d3.min.js"; }
+
+  public final String NVD3_SCRIPT_WORKING_PATH() { return WORKING_DIRECTORY_PATH() + File.separator + "nv.d3.min.js";}
+
+  public final String ANGULAR_NVD3_SCRIPT_WORKING_PATH() { return WORKING_DIRECTORY_PATH() + File.separator + "angular-nvd3.min.js";}
+
   public final Integer CHART_BUILDER_THREAD_POOL_SIZE() {
     return environment.getProperty(CHART_BUILDER_THREAD_POOL_KEY, Integer.class);
   }
