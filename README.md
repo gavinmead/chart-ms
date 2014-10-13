@@ -58,4 +58,5 @@ Chart-MS works by taking a JSON request like below
     
     }
 
-and generates a HTML document.  That document is then passed to phantomjs which will render the DOM using the provided clippingDiv attribute.
+and generating a HTML document.  That document is then passed to phantomjs which will render the clipping rectangle of the provided clippingDiv attribute and 
+returns the image to the caller.
