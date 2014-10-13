@@ -1,3 +1,0 @@
-#foreach( $i in $items )
-  var test${foreach.count}[];
-#end
