@@ -30,6 +30,7 @@ Chart-MS works by taking a JSON request like below
       			</div>
       		</div>",
        "isFragment": true,
+       "chartId": chart",
        "clippingDiv": "test",
        "useBootstrap" : true,
        "chart" : "{

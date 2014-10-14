@@ -8,4 +8,5 @@ public class UrlConstants {
 
   public static final String API = "api";
   public static final String PING = API + "/ping";
+  public static final String CHART = API + "/chart";
 }

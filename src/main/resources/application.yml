@@ -1,0 +1,6 @@
+app:
+  workingDir: ${java.io.tmpdir}/chartms/working
+  imageDir: ${app.workingDir}/images
+  htmlDir: ${app.workingDir}/html
+
+

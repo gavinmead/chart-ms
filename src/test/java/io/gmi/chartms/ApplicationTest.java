@@ -1,0 +1,44 @@
+package io.gmi.chartms;
+
+import io.gmi.chartms.config.AppConfig;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
+public class ApplicationTest {
+
+  @Autowired
+  AppConfig appConfig;
+
+  @Test
+  public void testSetupApplication() throws Exception {
+    Path working = Paths.get(appConfig.getWorkingDir());
+    File workingDir = working.toFile();
+    assertThat(workingDir.exists()).isTrue();
+    assertThat(workingDir.isDirectory());
+
+    Path images = Paths.get(appConfig.getImageDir());
+    File imagesDir = images.toFile();
+    assertThat(imagesDir.exists());
+    assertThat(imagesDir.isDirectory());
+    assertThat(imagesDir.listFiles()).hasSize(0);
+
+    Path html = Paths.get(appConfig.getHtmlDir());
+    File htmlDir = html.toFile();
+    assertThat(htmlDir.exists());
+    assertThat(htmlDir.isDirectory());
+    assertThat(htmlDir.listFiles()).hasSize(0);
+  }
+}
