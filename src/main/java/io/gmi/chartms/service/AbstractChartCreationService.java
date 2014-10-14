@@ -30,7 +30,8 @@ public abstract class AbstractChartCreationService implements ChartCreationServi
     String imageFile = null;
     try {
       Document baseDocument = generateBaseHtmlDocument(chartCreationContext.getChartRequest().getHtml());
-      Document completedDocument = injectScript(baseDocument, chartCreationContext);
+      Document postProcessedHtmlDocument = postProcessBaseHtmlDocument(baseDocument, chartCreationContext);
+      Document completedDocument = injectScript(postProcessedHtmlDocument, chartCreationContext);
       saveHtml(completedDocument, chartCreationContext);
       imageFile = generateImage(chartCreationContext);
     } catch (Exception e) {
@@ -40,6 +41,10 @@ public abstract class AbstractChartCreationService implements ChartCreationServi
   }
 
   protected abstract Document generateBaseHtmlDocument(String htmlFragment);
+
+  protected Document postProcessBaseHtmlDocument(Document html, ChartCreationContext chartCreationContext) {
+    return html;
+  }
 
   protected abstract Document injectScript(Document html, ChartCreationContext chartCreationContext);
 

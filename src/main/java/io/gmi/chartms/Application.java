@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -28,6 +31,10 @@ public class Application {
 
   @Autowired
   AppConfig appConfig;
+
+  @Autowired
+  private ResourceLoader resourceLoader;
+
 
   public static void main(String[] args) {
     SpringApplication app = new SpringApplication(Application.class);
@@ -65,6 +72,17 @@ public class Application {
         log.debug("Directory {} created", path);
       } catch (Exception e) {
         throw new RuntimeException("Error creating work subdirectories", e);
+      }
+    });
+
+    appConfig.getClasspathResourceMap().forEach((cp, path) -> {
+      Resource resource = resourceLoader.getResource(cp);
+      File file = new File(path);
+      try {
+        log.info("Copying resource {} to file {}", resource.getFile(), file);
+        com.google.common.io.Files.copy(resource.getFile(), file);
+      } catch (IOException e) {
+        throw new RuntimeException("", e);
       }
     });
 

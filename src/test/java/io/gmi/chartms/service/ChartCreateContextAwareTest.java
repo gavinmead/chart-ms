@@ -20,7 +20,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 public abstract class ChartCreateContextAwareTest {
 
-  private String contextId;
+  protected String contextId;
   private MockHttpServletRequest mockHttpServletRequest;
   private MockHttpServletResponse mockHttpServletResponse;
   private Object handler;

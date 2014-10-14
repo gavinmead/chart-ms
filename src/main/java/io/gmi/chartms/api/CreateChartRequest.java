@@ -50,4 +50,15 @@ public class CreateChartRequest {
   public void setChartContainerId(String chartContainerId) {
     this.chartContainerId = chartContainerId;
   }
+
+  @Override
+  public String toString() {
+    return "CreateChartRequest{" +
+        "html='" + html + '\'' +
+        ", useBootstrap=" + useBootstrap +
+        ", clippingDiv='" + clippingDiv + '\'' +
+        ", chart='" + chart + '\'' +
+        ", chartContainerId='" + chartContainerId + '\'' +
+        '}';
+  }
 }

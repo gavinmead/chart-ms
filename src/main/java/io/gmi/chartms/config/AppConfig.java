@@ -6,6 +6,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by gmead on 10/14/14.
  */
@@ -14,12 +17,21 @@ import org.springframework.stereotype.Component;
 public class AppConfig implements InitializingBean {
 
   private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
+  private Map<String, String> classpathResourceMap = new HashMap<>();
 
   private String workingDir;
 
   private String imageDir;
 
   private String htmlDir;
+
+  private String bootstrapCss;
+
+  private String renderImageScript;
+
+  private String jqueryScript;
+
+  private String highChartsScript;
 
   public String getWorkingDir() {
     return workingDir;
@@ -45,10 +57,53 @@ public class AppConfig implements InitializingBean {
     this.htmlDir = htmlDir;
   }
 
+  public String getBootstrapCss() {
+    return bootstrapCss;
+  }
+
+  public void setBootstrapCss(String bootstrapCss) {
+    this.bootstrapCss = bootstrapCss;
+  }
+
+  public String getRenderImageScript() {
+    return renderImageScript;
+  }
+
+  public void setRenderImageScript(String renderImageScript) {
+    this.renderImageScript = renderImageScript;
+  }
+
+  public String getJqueryScript() {
+    return jqueryScript;
+  }
+
+  public void setJqueryScript(String jqueryScript) {
+    this.jqueryScript = jqueryScript;
+  }
+
+  public String getHighChartsScript() {
+    return highChartsScript;
+  }
+
+  public void setHighChartsScript(String highChartsScript) {
+    this.highChartsScript = highChartsScript;
+  }
+
+  public Map<String, String> getClasspathResourceMap() {
+    return classpathResourceMap;
+  }
+
   @Override
   public void afterPropertiesSet() throws Exception {
     log.info("Application workingDir={}", workingDir);
     log.info("Application imageDir={}", imageDir);
     log.info("Application htmlDir={}", htmlDir);
+
+    log.info("Copying classpath resources to {}", workingDir);
+
+    classpathResourceMap.put("classpath:/bootstrap.min.css", bootstrapCss);
+    classpathResourceMap.put("classpath:/highcharts.js", highChartsScript);
+    classpathResourceMap.put("classpath:/jquery-1.11.1.js", jqueryScript);
+    classpathResourceMap.put("classpath:/render-image.js", renderImageScript);
   }
 }

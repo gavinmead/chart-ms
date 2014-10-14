@@ -2,5 +2,9 @@ app:
   workingDir: ${java.io.tmpdir}/chartms/working
   imageDir: ${app.workingDir}/images
   htmlDir: ${app.workingDir}/html
+  bootstrapCss: ${app.workingDir}/bootstrap.min.css
+  renderImageScript: ${app.workingDir}/render-image.js
+  highChartsScript: ${app.workingDir}/highcharts.js
+  jqueryScript: ${app.workingDir}/jquery-1.11.1.js
 
 

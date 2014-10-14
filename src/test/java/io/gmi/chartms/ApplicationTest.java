@@ -40,5 +40,13 @@ public class ApplicationTest {
     assertThat(htmlDir.exists());
     assertThat(htmlDir.isDirectory());
     assertThat(htmlDir.listFiles()).hasSize(0);
+
+    File bootstrap = new File(appConfig.getBootstrapCss());
+    assertThat(bootstrap.isFile()).isTrue();
+    assertThat(bootstrap.exists()).isTrue();
+
+    File renderImageScript = new File(appConfig.getRenderImageScript());
+    assertThat(renderImageScript.isFile()).isTrue();
+    assertThat(renderImageScript.exists()).isTrue();
   }
 }
