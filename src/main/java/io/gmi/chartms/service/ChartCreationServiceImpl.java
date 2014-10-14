@@ -26,6 +26,9 @@ public class ChartCreationServiceImpl extends AbstractChartCreationService {
   GenerateImageDelegate generateImageDelegate;
 
   @Autowired
+  InjectBootstrapDelegate injectBootstrapDelegate;
+
+  @Autowired
   public ChartCreationServiceImpl(AppConfig appConfig) {
     super(appConfig);
   }
@@ -33,6 +36,12 @@ public class ChartCreationServiceImpl extends AbstractChartCreationService {
   @Override
   protected Document generateBaseHtmlDocument(String htmlFragment) {
     return documentCreationDelegate.createDocument(htmlFragment);
+  }
+
+  @Override
+  protected Document postProcessBaseHtmlDocument(Document html, ChartCreationContext chartCreationContext) {
+    Document document = super.postProcessBaseHtmlDocument(html, chartCreationContext);
+    return injectBootstrapDelegate.injectBootstrapCss(document, chartCreationContext);
   }
 
   @Override

@@ -1,5 +1,6 @@
 package io.gmi.chartms.service;
 
+import io.gmi.chartms.TestUtils;
 import io.gmi.chartms.api.CreateChartRequest;
 import io.gmi.chartms.config.AppConfig;
 import org.jsoup.Jsoup;
@@ -17,29 +18,7 @@ public class DefaultScriptInjectorDelegateTest extends ChartCreateContextAwareTe
 
   private static final Logger log = LoggerFactory.getLogger(DefaultScriptInjectorDelegateTest.class);
 
-  private static final String CHART = "{\n" +
-      "        chart: {\n" +
-      "            type: 'bar'\n" +
-      "        },\n" +
-      "        title: {\n" +
-      "            text: 'Fruit Consumption'\n" +
-      "        },\n" +
-      "        xAxis: {\n" +
-      "            categories: ['Apples', 'Bananas', 'Oranges']\n" +
-      "        },\n" +
-      "        yAxis: {\n" +
-      "            title: {\n" +
-      "                text: 'Fruit eaten'\n" +
-      "            }\n" +
-      "        },\n" +
-      "        series: [{\n" +
-      "            name: 'Jane',\n" +
-      "            data: [1, 0, 4]\n" +
-      "        }, {\n" +
-      "            name: 'John',\n" +
-      "            data: [5, 7, 3]\n" +
-      "        }]\n" +
-      "    }";
+
 
   Document document;
 
@@ -59,7 +38,7 @@ public class DefaultScriptInjectorDelegateTest extends ChartCreateContextAwareTe
   @Test
   public void testInjectScriptWithNoDocument() throws Exception {
     CreateChartRequest request = new CreateChartRequest();
-    request.setChart(CHART);
+    request.setChart(TestUtils.CHART);
     Document generatedDoc = defaultScriptInjectorDelegate.injectScript(document, new ChartCreationContext(contextId, request));
     doBaseAssert(generatedDoc);
     assertThat(generatedDoc.getElementById(contextId)).isNotNull();
@@ -71,7 +50,7 @@ public class DefaultScriptInjectorDelegateTest extends ChartCreateContextAwareTe
     String html = "<div id=\"testDiv\"><div id=\"chartDiv\"></div></div>";
     Document doc = Jsoup.parse(html);
     CreateChartRequest request = new CreateChartRequest();
-    request.setChart(CHART);
+    request.setChart(TestUtils.CHART);
     request.setChartContainerId("chartDiv");
     request.setHtml(html);
 

@@ -66,24 +66,17 @@ captureSelector = function(targetFile, selector) {
     }, { selector: selector }));
 }
 
-page.onConsoleMessage = function(msg, lineNum, sourceId) {
-	console.log("Received message: " + msg);
-	if(msg == 'rendered=1') {
-		//console.log(page.content);
-		console.log("Chart has been rendered.  Taking screenshot");
-		setTimeout(function() {
-				var querySelector = "#" + clippingDiv;
-				captureSelector(outFile, querySelector);
-				phantom.exit();
-		}, 
-		300);	//Becase nvd3 uses a transitionDuration = 250, we need to wait before trying render.
-
-	}
-};
-
 page.open(inFile, function(status) {
   if(status == 'fail') {
 	phantom.exit(1);
+  } else {
+      setTimeout(function() {
+              var querySelector = "#" + clippingDiv;
+              captureSelector(outFile, querySelector);
+              phantom.exit();
+          },
+          1000)
   }
+
 }
 );
