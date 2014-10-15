@@ -6,5 +6,9 @@ app:
   renderImageScript: ${app.workingDir}/render-image.js
   highChartsScript: ${app.workingDir}/highcharts.js
   jqueryScript: ${app.workingDir}/jquery-1.11.1.js
-
+  #5 Minutes
+  directoryMonitor:
+    delay: 300000
+    # Delete any files older than 5 minutes from the current time.
+    fileLifetime: 5
 

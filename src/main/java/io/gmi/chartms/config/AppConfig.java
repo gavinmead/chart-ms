@@ -33,6 +33,8 @@ public class AppConfig implements InitializingBean {
 
   private String highChartsScript;
 
+  private DirectoryMonitorConfig directoryMonitor;
+
   public String getWorkingDir() {
     return workingDir;
   }
@@ -91,6 +93,14 @@ public class AppConfig implements InitializingBean {
 
   public Map<String, String> getClasspathResourceMap() {
     return classpathResourceMap;
+  }
+
+  public DirectoryMonitorConfig getDirectoryMonitor() {
+    return directoryMonitor;
+  }
+
+  public void setDirectoryMonitor(DirectoryMonitorConfig directoryMonitor) {
+    this.directoryMonitor = directoryMonitor;
   }
 
   @Override
