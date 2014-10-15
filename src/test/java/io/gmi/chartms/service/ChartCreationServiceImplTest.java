@@ -6,6 +6,7 @@ import io.gmi.chartms.TestUtils;
 import io.gmi.chartms.api.CreateChartRequest;
 import io.gmi.chartms.config.AppConfig;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -42,6 +43,7 @@ public class ChartCreationServiceImplTest extends ChartCreateContextAwareTest {
   }
 
   @Test
+  @Ignore
   public void testCreateChartImage() throws Exception{
     ChartCreationContext context = new ChartCreationContext(contextId, request);
     String results = chartCreationService.createChartImage(context);
