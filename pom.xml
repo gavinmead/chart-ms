@@ -5,7 +5,7 @@
 
     <artifactId>chart-ms-service</artifactId>
     <groupId>io.gmi</groupId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
