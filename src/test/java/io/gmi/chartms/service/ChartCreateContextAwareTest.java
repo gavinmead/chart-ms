@@ -1,6 +1,6 @@
 package io.gmi.chartms.service;
 
-import io.gmi.chartms.Application;
+import io.gmi.chartms.ChartMSApplication;
 import io.gmi.chartms.api.ContextIDInterceptor;
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  * Created by gmead on 10/14/14.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ChartMSApplication.class)
 @WebAppConfiguration
 public abstract class ChartCreateContextAwareTest {
 

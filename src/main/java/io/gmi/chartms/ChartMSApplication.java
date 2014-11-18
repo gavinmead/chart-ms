@@ -27,9 +27,9 @@ import java.util.List;
 @ComponentScan
 @ContextConfiguration
 @EnableAutoConfiguration
-public class Application {
+public class ChartMSApplication {
 
-  private final Logger log = LoggerFactory.getLogger(Application.class);
+  private final Logger log = LoggerFactory.getLogger(ChartMSApplication.class);
 
   @Autowired
   AppConfig appConfig;
@@ -38,7 +38,7 @@ public class Application {
   ResourceLoader resourceLoader;
 
   public static void main(String[] args) {
-    SpringApplication app = new SpringApplication(Application.class);
+    SpringApplication app = new SpringApplication(ChartMSApplication.class);
     app.setShowBanner(false);
     app.run(args);
   }

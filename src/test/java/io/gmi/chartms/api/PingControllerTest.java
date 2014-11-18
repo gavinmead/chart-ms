@@ -1,6 +1,6 @@
 package io.gmi.chartms.api;
 
-import io.gmi.chartms.Application;
+import io.gmi.chartms.ChartMSApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ChartMSApplication.class)
 @WebAppConfiguration
 @ActiveProfiles("dev")
 public class PingControllerTest {

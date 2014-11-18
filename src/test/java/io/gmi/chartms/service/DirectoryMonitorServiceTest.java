@@ -20,7 +20,7 @@
 package io.gmi.chartms.service;
 
 import com.google.common.collect.Lists;
-import io.gmi.chartms.Application;
+import io.gmi.chartms.ChartMSApplication;
 import io.gmi.chartms.config.AppConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ChartMSApplication.class)
 @WebAppConfiguration
 public class DirectoryMonitorServiceTest {
 

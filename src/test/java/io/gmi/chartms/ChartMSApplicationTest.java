@@ -15,9 +15,9 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = ChartMSApplication.class)
 @WebAppConfiguration
-public class ApplicationTest {
+public class ChartMSApplicationTest {
 
   @Autowired
   AppConfig appConfig;
