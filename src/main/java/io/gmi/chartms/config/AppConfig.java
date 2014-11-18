@@ -111,9 +111,9 @@ public class AppConfig implements InitializingBean {
 
     log.info("Copying classpath resources to {}", workingDir);
 
-    classpathResourceMap.put("classpath:/bootstrap.min.css", bootstrapCss);
-    classpathResourceMap.put("classpath:/highcharts.js", highChartsScript);
-    classpathResourceMap.put("classpath:/jquery-1.11.1.js", jqueryScript);
-    classpathResourceMap.put("classpath:/render-image.js", renderImageScript);
+    classpathResourceMap.put("bootstrap.min.css", bootstrapCss);
+    classpathResourceMap.put("highcharts.js", highChartsScript);
+    classpathResourceMap.put("jquery-1.11.1.js", jqueryScript);
+    classpathResourceMap.put("render-image.js", renderImageScript);
   }
 }

@@ -1,6 +1,8 @@
 package io.gmi.chartms;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.ByteStreams;
+import com.google.common.reflect.ClassPath;
 import io.gmi.chartms.config.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +35,7 @@ public class Application {
   AppConfig appConfig;
 
   @Autowired
-  private ResourceLoader resourceLoader;
-
+  ResourceLoader resourceLoader;
 
   public static void main(String[] args) {
     SpringApplication app = new SpringApplication(Application.class);
@@ -75,12 +76,22 @@ public class Application {
       }
     });
 
+    final ClassPath clazzPath = ClassPath.from(this.getClass().getClassLoader());
+
     appConfig.getClasspathResourceMap().forEach((cp, path) -> {
-      Resource resource = resourceLoader.getResource(cp);
-      File file = new File(path);
+      ClassPath.ResourceInfo resourceInfo = clazzPath.getResources().stream().filter((r) -> r.getResourceName().equals(cp))
+          .findFirst().get();
+      if(resourceInfo == null)
+        throw new IllegalStateException(path + " was not found on classpath.");
+      log.info("Resource Info: {}", resourceInfo);
+      File file = null;
+      File clazzPathFile = null;
       try {
-        log.info("Copying resource {} to file {}", resource.getFile(), file);
-        com.google.common.io.Files.copy(resource.getFile(), file);
+        file = new File(path);
+        Resource classPathResource = resourceLoader.getResource(resourceInfo.url().toExternalForm());
+        byte[] clazzPathResourceBytes = ByteStreams.toByteArray(classPathResource.getInputStream());
+        log.info("Copying resource {} to file {}", clazzPathFile, file);
+        com.google.common.io.Files.write(clazzPathResourceBytes, file);
       } catch (IOException e) {
         throw new RuntimeException("", e);
       }

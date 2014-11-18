@@ -29,17 +29,6 @@ public class ApplicationTest {
     assertThat(workingDir.exists()).isTrue();
     assertThat(workingDir.isDirectory());
 
-    Path images = Paths.get(appConfig.getImageDir());
-    File imagesDir = images.toFile();
-    assertThat(imagesDir.exists());
-    assertThat(imagesDir.isDirectory());
-    assertThat(imagesDir.listFiles()).hasSize(0);
-
-    Path html = Paths.get(appConfig.getHtmlDir());
-    File htmlDir = html.toFile();
-    assertThat(htmlDir.exists());
-    assertThat(htmlDir.isDirectory());
-    assertThat(htmlDir.listFiles()).hasSize(0);
 
     File bootstrap = new File(appConfig.getBootstrapCss());
     assertThat(bootstrap.isFile()).isTrue();
